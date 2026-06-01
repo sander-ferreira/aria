@@ -1,0 +1,53 @@
+{
+  "name": "aria",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "dotenv": "^17.2.2",
+      "zod": "^4.1.13",
+      "typescript": "^6",
+      "lucide-react": "^0.546.0",
+      "next": "^16.2.0",
+      "next-themes": "^0.4.6",
+      "react": "^19.2.6",
+      "react-dom": "^19.2.6",
+      "sonner": "^2.0.5",
+      "@trpc/server": "^11.16.0",
+      "@trpc/client": "^11.16.0",
+      "better-auth": "1.6.11",
+      "@types/react": "^19.2.15",
+      "@types/react-dom": "^19.2.3",
+      "tailwindcss": "^4.1.18"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --filter '*' dev",
+    "build": "bun run --filter '*' build",
+    "check-types": "bun run --filter '*' check-types",
+    "dev:web": "bun run --filter web dev",
+    "db:push": "bun run --filter @aria/db db:push",
+    "db:studio": "bun run --filter @aria/db db:studio",
+    "db:generate": "bun run --filter @aria/db db:generate",
+    "db:migrate": "bun run --filter @aria/db db:migrate",
+    "db:start": "bun run --filter @aria/db db:start",
+    "db:watch": "bun run --filter @aria/db db:watch",
+    "db:stop": "bun run --filter @aria/db db:stop",
+    "db:down": "bun run --filter @aria/db db:down"
+  },
+  "dependencies": {
+    "@aria/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@aria/config": "workspace:*",
+    "@types/node": "^22.13.14",
+    "typescript": "catalog:"
+  },
+  "packageManager": "bun@1.2.19"
+}

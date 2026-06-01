@@ -1,0 +1,24 @@
+{
+  "name": "@aria/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@aria/db": "workspace:*",
+    "@aria/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@aria/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
