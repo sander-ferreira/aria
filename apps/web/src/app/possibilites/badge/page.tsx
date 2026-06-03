@@ -21,8 +21,15 @@ export default function BadgePage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 18 }}
         >
-          {/* Pastille du badge (placeholder visuel — cercle orange dans la maquette) */}
-          <div className="h-32 w-32 rounded-full bg-aria-orange" />
+          {/* Visuel du badge */}
+          <Image
+            src="/images/badge-premiers-pas.svg"
+            alt="Badge Premier Pas"
+            width={128}
+            height={128}
+            priority
+            className="h-32 w-32"
+          />
           <span className="text-[16px] leading-7 font-black text-aria-orange">
             Badge Premier Pas
           </span>
