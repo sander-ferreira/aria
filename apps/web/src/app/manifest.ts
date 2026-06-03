@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "aria",
+    name: "Aria",
     short_name: "aria",
-    description: "my pwa app",
+    description: "Your new AI companion",
     start_url: "/new",
     display: "standalone",
     background_color: "#ffffff",
