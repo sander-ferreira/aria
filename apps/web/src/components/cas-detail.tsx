@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 import type { CasData } from "@/app/possibilites/cas/cas-data";
@@ -9,12 +10,7 @@ import type { CasData } from "@/app/possibilites/cas/cas-data";
 function CloseIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 14 14" fill="none" className={className} aria-hidden="true" width={14} height={14}>
-      <path
-        d="M1 1l12 12M13 1L1 13"
-        stroke="currentColor"
-        strokeWidth={2.2}
-        strokeLinecap="round"
-      />
+      <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" />
     </svg>
   );
 }
@@ -31,6 +27,11 @@ function BlocInfo({ image, text, alt }: { image: string; text: string; alt: stri
   );
 }
 
+const TABS = [
+  { key: "avant", label: "Avant IA" },
+  { key: "apres", label: "Après IA" },
+] as const;
+
 export default function CasDetail({ data }: { data: CasData }) {
   const [tab, setTab] = useState<"avant" | "apres">("avant");
 
@@ -41,14 +42,19 @@ export default function CasDetail({ data }: { data: CasData }) {
         <Link
           href="/possibilites"
           aria-label="Fermer"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-aria-creme"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-aria-creme active:scale-90 transition-transform"
         >
           <CloseIcon className={data.closeColor} />
         </Link>
       </div>
 
-      {/* Contenu */}
-      <div className="flex flex-col gap-12 px-6 pt-6">
+      {/* Contenu (entrée animée) */}
+      <motion.div
+        className="flex flex-col gap-12 px-6 pt-6"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      >
         {/* Intitulé + mise en situation */}
         <div className={`flex flex-col gap-5 ${data.accent}`}>
           <span className="text-[16px] leading-7 font-bold">{data.num}</span>
@@ -57,9 +63,9 @@ export default function CasDetail({ data }: { data: CasData }) {
         </div>
 
         {/* Toggle Avant / Après */}
-        <div className="flex flex-col gap-5">
+        <motion.div layout className="flex flex-col gap-5">
           <div className="flex items-center rounded-full bg-aria-creme">
-            {(["avant", "apres"] as const).map((key) => {
+            {TABS.map(({ key, label }) => {
               const active = tab === key;
               return (
                 <button
@@ -67,43 +73,60 @@ export default function CasDetail({ data }: { data: CasData }) {
                   type="button"
                   onClick={() => setTab(key)}
                   aria-pressed={active}
-                  className={`flex flex-1 items-center justify-center rounded-full px-4 py-3 text-[16px] leading-5 font-black text-aria-violet transition-colors ${
-                    active ? data.accentBg : "bg-transparent"
-                  }`}
+                  className="relative flex flex-1 items-center justify-center rounded-full px-4 py-3"
                 >
-                  {key === "avant" ? "Avant IA" : "Après IA"}
+                  {active && (
+                    <motion.span
+                      layoutId="cas-switch-pill"
+                      className="absolute inset-0 rounded-full bg-aria-lime"
+                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                    />
+                  )}
+                  <span className="relative z-10 text-[16px] leading-5 font-black text-aria-violet">
+                    {label}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {tab === "avant" ? (
-            <BlocInfo image={data.avant.image} text={data.avant.text} alt={data.title} />
-          ) : (
-            <div className="flex flex-col gap-9">
-              <BlocInfo image={data.apres.image} text={data.apres.text} alt={data.title} />
-              {/* Message de la mascotte */}
-              <div className="flex items-start gap-2">
-                <Image
-                  src="/images/aria-mascot-message-cream.png"
-                  alt="Aria"
-                  width={76}
-                  height={91}
-                  className="h-[91px] w-[76px] shrink-0"
-                />
-                <div className="relative flex-1">
-                  <div className="absolute top-[18px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-lime" />
-                  <div className="rounded-2xl bg-aria-lime p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-                    <p className="text-[14px] leading-[18px] font-bold text-aria-violet">
-                      {data.apres.mascotMessage}
-                    </p>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={tab}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+            >
+              {tab === "avant" ? (
+                <BlocInfo image={data.avant.image} text={data.avant.text} alt={data.title} />
+              ) : (
+                <div className="flex flex-col gap-9">
+                  <BlocInfo image={data.apres.image} text={data.apres.text} alt={data.title} />
+                  {/* Message de la mascotte */}
+                  <div className="flex items-start gap-2">
+                    <Image
+                      src={data.apres.mascot}
+                      alt="Aria"
+                      width={76}
+                      height={91}
+                      className="h-[91px] w-[76px] shrink-0"
+                    />
+                    <div className="relative flex-1">
+                      <div className="absolute top-[18px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-lime" />
+                      <div className="rounded-2xl bg-aria-lime p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+                        <p className="text-[14px] leading-[18px] font-bold text-aria-violet">
+                          {data.apres.mascotMessage}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
     </main>
   );
 }
