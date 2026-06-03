@@ -2,6 +2,8 @@ import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import ProgressHeader from "@/components/progress-header";
+
 type CardData = {
   num: string;
   text: string;
@@ -74,33 +76,10 @@ function ArrowIcon({ className }: { className?: string }) {
   );
 }
 
-function ProgressHeader() {
-  return (
-    <header className="flex items-center gap-4 px-6 pt-6 pb-2">
-      <span className="text-[14px] leading-5 font-black text-aria-violet">
-        Étape 2
-      </span>
-      {/* Barre de progression */}
-      <div className="flex h-1 flex-1 items-stretch gap-2">
-        {[1, 0.2, 0.2, 0.2].map((opacity, i) => (
-          <span
-            key={i}
-            className="flex-1 rounded-full bg-aria-violet"
-            style={{ opacity }}
-          />
-        ))}
-      </div>
-      <span className="flex shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-aria-creme px-4 py-2 text-[14px] leading-5 font-black text-aria-violet shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-        200 XP
-      </span>
-    </header>
-  );
-}
-
 export default function PossibilitesPage() {
   return (
     <main className="font-satoshi flex h-dvh w-full flex-col overflow-hidden bg-aria-creme">
-      <ProgressHeader />
+      <ProgressHeader step={2} xp="200 XP" />
 
       {/* En-tête : mascotte Aria + bulle de dialogue */}
       <section className="flex items-end gap-2 px-6 pt-8">
