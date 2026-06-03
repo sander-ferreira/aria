@@ -90,7 +90,7 @@ function ProgressHeader() {
           />
         ))}
       </div>
-      <span className="flex w-[75px] items-center justify-center rounded-full bg-aria-creme px-3 py-2 text-[14px] leading-5 font-black text-aria-violet shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+      <span className="flex shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-aria-creme px-4 py-2 text-[14px] leading-5 font-black text-aria-violet shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
         200 XP
       </span>
     </header>

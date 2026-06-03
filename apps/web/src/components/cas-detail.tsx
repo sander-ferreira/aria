@@ -34,6 +34,9 @@ const TABS = [
 
 export default function CasDetail({ data }: { data: CasData }) {
   const [tab, setTab] = useState<"avant" | "apres">("avant");
+  // Couleur de la queue de bulle (= fond de la bulle), en classe littérale pour Tailwind
+  const tailColor =
+    data.bubbleBg === "bg-aria-violet" ? "border-r-aria-violet" : "border-r-aria-lime";
 
   return (
     <main className={`font-satoshi flex h-dvh w-full flex-col overflow-hidden ${data.bg}`}>
@@ -78,11 +81,15 @@ export default function CasDetail({ data }: { data: CasData }) {
                   {active && (
                     <motion.span
                       layoutId="cas-switch-pill"
-                      className="absolute inset-0 rounded-full bg-aria-lime"
+                      className={`absolute inset-0 rounded-full ${data.switchActiveBg}`}
                       transition={{ type: "spring", stiffness: 420, damping: 36 }}
                     />
                   )}
-                  <span className="relative z-10 text-[16px] leading-5 font-black text-aria-violet">
+                  <span
+                    className={`relative z-10 text-[16px] leading-5 font-black ${
+                      active ? data.switchActiveText : "text-aria-violet"
+                    }`}
+                  >
                     {label}
                   </span>
                 </button>
@@ -113,9 +120,13 @@ export default function CasDetail({ data }: { data: CasData }) {
                       className="h-[91px] w-[76px] shrink-0"
                     />
                     <div className="relative flex-1">
-                      <div className="absolute top-[18px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-lime" />
-                      <div className="rounded-2xl bg-aria-lime p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-                        <p className="text-[14px] leading-[18px] font-bold text-aria-violet">
+                      <div
+                        className={`absolute top-[18px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent ${tailColor}`}
+                      />
+                      <div
+                        className={`rounded-2xl p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)] ${data.bubbleBg}`}
+                      >
+                        <p className={`text-[14px] leading-[18px] font-bold ${data.bubbleText}`}>
                           {data.apres.mascotMessage}
                         </p>
                       </div>
