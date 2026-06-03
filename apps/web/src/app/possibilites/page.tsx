@@ -1,8 +1,12 @@
+import type { Route } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 type CardData = {
   num: string;
   text: string;
+  /** Lien vers l'écran de détail du cas */
+  href: string;
   /** Couleur de fond de la carte */
   bg: string;
   /** Couleur du texte + intitulé */
@@ -17,6 +21,7 @@ const CARDS: CardData[] = [
   {
     num: "Cas 1",
     text: "Expliquer un concept difficile autrement",
+    href: "/possibilites/cas/1",
     bg: "bg-aria-lavande",
     accent: "text-aria-lime",
     circleBg: "bg-aria-lime",
@@ -25,6 +30,7 @@ const CARDS: CardData[] = [
   {
     num: "Cas 2",
     text: "Différencier un exercice selon les niveaux",
+    href: "/possibilites/cas/2",
     bg: "bg-aria-orange",
     accent: "text-aria-creme",
     circleBg: "bg-aria-creme",
@@ -33,6 +39,7 @@ const CARDS: CardData[] = [
   {
     num: "Cas 3",
     text: "Préparer une séquence de cours",
+    href: "/possibilites/cas/3",
     bg: "bg-aria-violet",
     accent: "text-aria-lime",
     circleBg: "bg-aria-lime",
@@ -41,6 +48,7 @@ const CARDS: CardData[] = [
   {
     num: "Cas 4",
     text: "Rédiger un mail délicat aux parents",
+    href: "/possibilites/cas/4",
     bg: "bg-aria-lime",
     accent: "text-aria-violet",
     circleBg: "bg-aria-violet",
@@ -121,9 +129,10 @@ export default function PossibilitesPage() {
 
       <section className="mt-auto flex flex-col">
         {CARDS.map((card, i) => (
-          <article
+          <Link
             key={card.num}
-            className={`relative flex flex-col gap-4 rounded-t-2xl px-6 pt-6 pb-11 ${card.bg} ${
+            href={card.href as Route}
+            className={`relative flex flex-col gap-4 rounded-t-2xl px-6 pt-6 pb-11 transition-transform duration-150 active:scale-[0.98] ${card.bg} ${
               i > 0 ? "-mt-5" : ""
             }`}
           >
@@ -142,7 +151,7 @@ export default function PossibilitesPage() {
             <p className={`text-[24px] leading-7 font-black ${card.accent}`}>
               {card.text}
             </p>
-          </article>
+          </Link>
         ))}
       </section>
     </main>
