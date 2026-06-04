@@ -13,11 +13,17 @@ export type BadgeScreenProps = {
   ctaLabel: string;
   ctaHref: string;
   xp?: string;
+  /** Ratio d'aspect du visuel du badge (hauteur fixée à 128) */
+  badgeWidth?: number;
+  mascotImage?: string;
+  mascotWidth?: number;
+  /** Côté de la mascotte (la bulle est de l'autre côté) */
+  mascotSide?: "left" | "right";
 };
 
 /**
- * Écran de récompense "Nouveau Badge débloqué !" (fin de module).
- * Réutilisé par chaque badge (Premier Pas, Responsable…). Mobile-first, sans scroll.
+ * Écran de récompense "Nouveau Badge débloqué !" (fin de module / d'étape).
+ * Réutilisé par chaque badge (Curieux, Premier Pas, Responsable…). Mobile-first.
  */
 export default function BadgeScreen({
   badgeImage,
@@ -26,7 +32,38 @@ export default function BadgeScreen({
   ctaLabel,
   ctaHref,
   xp = "200 XP",
+  badgeWidth = 128,
+  mascotImage = "/images/aria-mascot-badge.png",
+  mascotWidth = 107,
+  mascotSide = "left",
 }: BadgeScreenProps) {
+  const mascot = (
+    <Image
+      src={mascotImage}
+      alt="Aria"
+      width={mascotWidth}
+      height={128}
+      priority
+      className="h-32 w-auto shrink-0"
+    />
+  );
+  const bubble = (
+    <div className="relative flex-1">
+      <div
+        className={`absolute top-[38px] h-0 w-0 border-y-[14px] border-y-transparent ${
+          mascotSide === "left"
+            ? "-left-[14px] border-r-[16px] border-r-aria-creme"
+            : "-right-[14px] border-l-[16px] border-l-aria-creme"
+        }`}
+      />
+      <div className="rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+        <p className="text-[14px] leading-[18px] font-medium whitespace-pre-line text-aria-violet">
+          {mascotMessage}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <main className="font-satoshi flex h-dvh w-full flex-col bg-aria-creme px-6">
       {/* Badge + textes (centrés) */}
@@ -37,7 +74,14 @@ export default function BadgeScreen({
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 18 }}
         >
-          <Image src={badgeImage} alt={badgeLabel} width={128} height={128} priority className="h-32 w-32" />
+          <Image
+            src={badgeImage}
+            alt={badgeLabel}
+            width={badgeWidth}
+            height={128}
+            priority
+            className="h-32 w-auto"
+          />
           <span className="text-[16px] leading-7 font-black text-aria-orange">{badgeLabel}</span>
         </motion.div>
 
@@ -48,7 +92,7 @@ export default function BadgeScreen({
           transition={{ delay: 0.15, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
           <h1 className="text-[36px] leading-10 font-black text-aria-violet">
-            {"Nouveau Badge débloqué !"}
+            Nouveau Badge débloqué&nbsp;!
           </h1>
           <p className="text-[16px] leading-7 font-black text-aria-lavande">Vous avez gagné {xp}</p>
         </motion.div>
@@ -62,22 +106,17 @@ export default function BadgeScreen({
         transition={{ delay: 0.3, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="flex items-start gap-2">
-          <Image
-            src="/images/aria-mascot-badge.png"
-            alt="Aria"
-            width={107}
-            height={128}
-            priority
-            className="h-32 w-[107px] shrink-0"
-          />
-          <div className="relative flex-1">
-            <div className="absolute top-[38px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />
-            <div className="rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-              <p className="text-[14px] leading-[18px] font-medium whitespace-pre-line text-aria-violet">
-                {mascotMessage}
-              </p>
-            </div>
-          </div>
+          {mascotSide === "left" ? (
+            <>
+              {mascot}
+              {bubble}
+            </>
+          ) : (
+            <>
+              {bubble}
+              {mascot}
+            </>
+          )}
         </div>
 
         <Link
