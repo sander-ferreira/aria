@@ -7,19 +7,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { CAS_DATA, type CasData } from "@/app/possibilites/cas/cas-data";
+import { addCasVu, getCasVus } from "@/lib/progress";
 
-/** Cas du parcours "Les possibilités" mémorisés comme vus (par session). */
-const STORAGE_KEY = "aria-possibilites-cas-vus";
+/** Nombre total de cas du parcours "Les possibilités". */
 const TOTAL_CAS = Object.keys(CAS_DATA).length;
-
-function readCasVus(): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? "[]") as string[];
-  } catch {
-    return [];
-  }
-}
 
 function CloseIcon({ className }: { className?: string }) {
   return (
@@ -50,23 +41,21 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
   const router = useRouter();
   const [tab, setTab] = useState<"avant" | "apres">("avant");
 
-  // Mémorise ce cas comme "vu" dès l'affichage
+  // Mémorise ce cas comme "vu" dès l'affichage (+50 XP, badge Premiers Pas)
   useEffect(() => {
-    const vus = new Set(readCasVus());
-    vus.add(id);
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify([...vus]));
+    addCasVu(id);
   }, [id]);
 
   // Fermeture : si les 4 cas ont été vus → badge, sinon retour à l'intro (peu importe l'ordre)
   function handleClose() {
-    const vus = new Set(readCasVus());
+    const vus = new Set(getCasVus());
     vus.add(id);
     const next = vus.size >= TOTAL_CAS ? "/possibilites/badge" : "/possibilites";
     router.push(next as Route);
   }
 
   return (
-    <main className={`font-satoshi flex h-dvh w-full flex-col overflow-hidden ${data.bg}`}>
+    <main className={`font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden ${data.bg}`}>
       {/* Barre haute : fermeture */}
       <div className="px-6 pt-6">
         <button
@@ -81,7 +70,7 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
 
       {/* Contenu (entrée animée) */}
       <motion.div
-        className="flex flex-col gap-12 px-6 pt-6"
+        className="flex flex-col gap-12 px-6 pt-6 pb-10"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}

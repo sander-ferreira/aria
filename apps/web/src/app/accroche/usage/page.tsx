@@ -16,7 +16,7 @@ export default function AccrocheUsagePage() {
   const answered = selected !== null;
 
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col bg-aria-creme px-6">
+    <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme px-6">
       {/* Mascotte + bulle */}
       <section className="flex items-end gap-2 pt-8">
         <Image

@@ -11,8 +11,8 @@ import ProgressHeader from "@/components/progress-header";
  */
 export default function LimitesPage() {
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col overflow-hidden bg-aria-creme">
-      <ProgressHeader step={3} xp="400 XP" totalSteps={4} />
+    <main className="font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden bg-aria-creme">
+      <ProgressHeader step={3} totalSteps={4} />
 
       <div className="flex flex-1 flex-col items-center justify-center gap-20 px-6">
         <div className="relative aspect-[345/405] w-full max-w-[345px]">

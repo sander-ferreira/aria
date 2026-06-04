@@ -31,10 +31,18 @@ export type CasData = {
   apres: { image: string; text: string; mascot: string; mascotMessage: string };
 };
 
-const PHOTO = "/images/cas-photo.png";
-const MASCOT_CAS1 = "/images/aria-mascot-cas1.png";
-const MASCOT_CAS2 = "/images/aria-mascot-cas2.png";
-const MASCOT_LAVANDE = "/images/aria-mascot-lavande.png";
+const PHOTO_CAS1_BEFORE = "/images/photo-cas1-avant.png";
+const PHOTO_CAS1_AFTER = "/images/photo-cas1-apres.png";
+const PHOTO_CAS2_BEFORE = "/images/photo-cas2-avant.png";
+const PHOTO_CAS2_AFTER = "/images/photo-cas2-apres.png";
+const PHOTO_CAS3_BEFORE = "/images/photo-cas3-avant.png";
+const PHOTO_CAS3_AFTER = "/images/photo-cas3-apres.png";
+const PHOTO_CAS4_BEFORE = "/images/photo-cas4-avant.png";
+const PHOTO_CAS4_AFTER = "/images/photo-cas4-apres.png";
+const MASCOT_CAS1 = "/images/mascotte-cas-1.png";
+const MASCOT_CAS2 = "/images/mascotte-cas-2.png";
+const MASCOT_CAS3 = "/images/mascotte-cas-3.png";
+const MASCOT_CAS4 = "/images/mascotte-cas-4.png";
 
 export const CAS_DATA: Record<string, CasData> = {
   "1": {
@@ -50,11 +58,11 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleBg: "bg-aria-lime",
     bubbleText: "text-aria-violet",
     avant: {
-      image: PHOTO,
+      image: PHOTO_CAS1_BEFORE,
       text: "Vous cherchez dans vos anciens cours, vous improvisez une analogie, vous espérez que ça passe.",
     },
     apres: {
-      image: PHOTO,
+      image: PHOTO_CAS1_AFTER,
       text: "« Explique la notion de photosynthèse à un élève de 4ème qui aime le football » → analogie sur mesure en 20 secondes → vous la testez, vous la gardez ou vous en demandez une autre.",
       mascot: MASCOT_CAS1,
       mascotMessage: "Vous ne manquez plus de mots. Vous choisissez juste le meilleur.",
@@ -73,11 +81,11 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleBg: "bg-aria-lavande",
     bubbleText: "text-aria-creme",
     avant: {
-      image: PHOTO,
+      image: PHOTO_CAS2_BEFORE,
       text: "45 min de travail supplémentaire, souvent abandonné faute de temps.",
     },
     apres: {
-      image: PHOTO,
+      image: PHOTO_CAS2_AFTER,
       text: "Prompt tapé en 30 secondes → 3 niveaux générés → 10 min de relecture et d'adaptation.",
       mascot: MASCOT_CAS2,
       mascotMessage:
@@ -96,13 +104,13 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleBg: "bg-aria-lime",
     bubbleText: "text-aria-violet",
     avant: {
-      image: PHOTO,
+      image: PHOTO_CAS3_BEFORE,
       text: "2h de préparation, souvent sur le même modèle de cours que l'an dernier.",
     },
     apres: {
-      image: PHOTO,
+      image: PHOTO_CAS3_AFTER,
       text: "Objectifs pédagogiques + niveau de classe → plan de séquence en 1 minute → vous gardez ce qui est juste, vous supprimez ce qui ne vous ressemble pas.",
-      mascot: MASCOT_LAVANDE,
+      mascot: MASCOT_CAS3,
       mascotMessage: "Elle propose. Vous décidez. Toujours.",
     },
   },
@@ -119,13 +127,13 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleBg: "bg-aria-violet",
     bubbleText: "text-aria-creme",
     avant: {
-      image: PHOTO,
+      image: PHOTO_CAS4_BEFORE,
       text: "Mail hésitant, énergie dépensée sur la forme plutôt que le fond.",
     },
     apres: {
-      image: PHOTO,
+      image: PHOTO_CAS4_AFTER,
       text: "Décrire la situation de façon anonyme → mail rédigé → vous ajoutez votre ton, votre connaissance de la famille.",
-      mascot: MASCOT_LAVANDE,
+      mascot: MASCOT_CAS4,
       mascotMessage: "L'IA fait le squelette. Vous mettez l'humanité.",
     },
   },

@@ -3,9 +3,9 @@
 import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 import ProgressHeader from "@/components/progress-header";
+import { useProgress } from "@/lib/progress";
 
 type CardData = {
   /** Identifiant de route (/possibilites/cas/<id>) */
@@ -61,8 +61,6 @@ const CARDS: CardData[] = [
   },
 ];
 
-const STORAGE_KEY = "aria-possibilites-cas-vus";
-
 function ArrowIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 13 13" fill="none" className={className} aria-hidden="true" width={13} height={13}>
@@ -83,19 +81,13 @@ function CheckIcon({ className }: { className?: string }) {
 }
 
 export default function PossibilitesPage() {
-  // Cas déjà ouverts (lecture côté client uniquement → pas de mismatch d'hydratation)
-  const [vus, setVus] = useState<string[]>([]);
-  useEffect(() => {
-    try {
-      setVus(JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? "[]") as string[]);
-    } catch {
-      setVus([]);
-    }
-  }, []);
+  // Cas déjà ouverts (lus depuis le store de progression, côté client)
+  const { state } = useProgress();
+  const vus = state.casVus;
 
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col overflow-hidden bg-aria-creme">
-      <ProgressHeader step={2} xp="200 XP" />
+    <main className="font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden bg-aria-creme">
+      <ProgressHeader step={2} />
 
       {/* En-tête : mascotte Aria + bulle de dialogue */}
       <section className="flex items-end gap-5 px-6 pt-8">

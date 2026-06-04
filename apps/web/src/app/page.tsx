@@ -1,45 +1,67 @@
 import type { Route } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
 /**
- * Accroche 1 — intro du kit : présentation d'ARIA. Début du parcours.
- * Mascotte + bulle (queue vers le haut) + CTA Continuer. Mobile-first.
+ * Page d'entrée du kit (racine) — porte d'entrée avant l'accroche.
+ * Fond violet, titre accentué lime, mascotte lavande en pied de page,
+ * CTA « Commencer avec ARIA » → /accroche. Mobile-first.
  */
-export default function AccrochePage() {
+export default function HomePage() {
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col bg-aria-creme px-6">
-      <div className="flex flex-col items-center gap-3 pt-16">
-        <Image
-          src="/images/aria-mascot-pointe.png"
-          alt="Aria, la mascotte"
-          width={143}
-          height={156}
-          priority
-          className="h-[156px] w-[143px]"
-        />
-        <div className="relative w-full max-w-[345px]">
-          {/* Queue de la bulle (vers le haut, vers la mascotte) */}
-          <div className="absolute -top-[15px] left-1/2 h-0 w-0 -translate-x-1/2 border-x-[16px] border-b-[16px] border-x-transparent border-b-aria-creme" />
-          <div className="flex flex-col gap-5 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-            <h1 className="text-[16px] leading-7 font-black text-aria-violet">
-              Bonjour, moi c&apos;est ARIA
-            </h1>
-            <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-              Je suis votre guide dans ce kit. Je ne suis pas là pour vous faire peur ou pour vous
-              vendre du rêve, je suis juste là pour vous dire la vérité sur l&apos;IA. Ce qu&apos;elle
-              peut faire pour vous, et ce qu&apos;elle ne fera jamais à votre place.
-            </p>
-          </div>
-        </div>
+    <main className="font-satoshi relative flex h-dvh w-full flex-col overflow-hidden bg-aria-violet">
+      {/* Titre + sous-titre */}
+      <div className="flex flex-col gap-7 px-6 pt-28">
+        <h1 className="text-[36px] leading-10 font-black text-aria-creme">
+          L&apos;IA <span className="text-aria-lime">ne remplace pas</span> l&apos;enseignant.
+          Elle lui <span className="text-aria-lime">rend du temps</span> pour enseigner.
+        </h1>
+        <p className="text-[14px] leading-[18px] font-bold text-aria-lime">
+          ARIA vous guide à travers ce que l&apos;IA peut faire pour vous et ce qu&apos;elle ne
+          fera jamais à votre place.
+        </p>
       </div>
 
-      <div className="mt-auto pt-6 pb-12">
+      {/* Mascotte lavande, ancrée et débordant en bas (cadrage maquette) */}
+      <svg
+        viewBox="0 0 393 409"
+        fill="none"
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-auto w-full"
+      >
+        <g clipPath="url(#clip0_91_1961)">
+          <path d="M173.048 259.281L141.264 570H-25.4275C-33.1524 497.257 39.0711 484.124 76.1601 486.639L69.0402 259.281H173.048Z" fill="#B4A0FF" />
+          <path d="M148.849 259.281L180.633 570H347.324C355.049 497.257 282.825 484.124 245.736 486.639L252.856 259.281H148.849Z" fill="#B4A0FF" />
+          <path d="M142.427 20.7472C155.503 -6.91572 194.826 -6.91572 207.949 20.7472L372.593 368.443C383.994 392.52 366.45 420.276 339.831 420.276H10.5441C-16.0744 420.276 -33.6183 392.52 -22.2171 368.443L142.427 20.7472Z" fill="#B4A0FF" />
+          <path d="M304.231 246.102C306.186 235.251 315.679 227.334 326.708 227.334H426.155C440.395 227.334 451.145 240.234 448.632 254.252L423.223 394.01C421.269 404.861 411.776 412.778 400.747 412.778H301.3C287.06 412.778 276.31 399.878 278.823 385.86L304.231 246.102Z" fill="#FF6818" />
+          <path d="M373.942 299.565C383.22 299.565 390.741 292.038 390.741 282.753C390.741 273.468 383.22 265.941 373.942 265.941C364.664 265.941 357.143 273.468 357.143 282.753C357.143 292.038 364.664 299.565 373.942 299.565Z" fill="#FFFDF3" />
+          <path d="M159.031 370.264C152.121 370.264 144.405 367.847 134.865 360.582L132.571 358.905C111.555 343.555 72.4327 314.984 51.5614 288.444C50.7563 287.424 50.9332 285.943 51.957 285.142C52.9761 284.341 54.4559 284.513 55.2564 285.538C75.7274 311.571 115.995 340.975 135.344 355.11L137.676 356.814C154.387 369.537 163.941 365.905 176.035 361.303C177.227 360.852 178.427 360.395 179.646 359.948C179.66 359.944 179.679 359.939 179.693 359.93L239.073 339.746C239.18 339.401 239.347 339.071 239.575 338.768C240.352 337.729 241.828 337.515 242.865 338.298C243.531 338.796 243.852 339.574 243.801 340.347C244.462 340.948 247.072 342.806 256.412 346.014C259.511 347.104 262.699 347.221 265.645 346.354C268.539 345.516 270.359 344.068 271.21 341.916C272.82 337.841 270.745 331.931 268.474 328.113C268.069 327.433 268.037 326.599 268.376 325.887C268.721 325.174 269.395 324.685 270.177 324.578C274.77 323.959 277.79 322.259 279.163 319.53C281.229 315.418 279.489 309.48 277.372 305.647C276.962 304.907 276.981 303.998 277.427 303.277C277.874 302.555 278.665 302.122 279.522 302.159C287.023 302.457 291.742 300.929 292.468 297.972C293.291 294.628 289.49 289.161 284.799 286.935L250.679 271.492C249.58 270.994 249.036 269.746 249.418 268.6C257.841 243.513 252.596 240.933 251.968 240.723C247.579 239.242 234.922 249.818 230.65 262.42C230.478 262.928 230.138 263.361 229.686 263.65L169.05 302.21C168.171 302.769 167.021 302.681 166.24 301.991L103.23 246.572C102.257 245.715 102.16 244.23 103.016 243.252C103.872 242.279 105.357 242.181 106.334 243.038L168.017 297.292L226.48 260.115C231.18 247.341 245.066 233.425 253.475 236.266C260.246 238.553 260.6 249.255 254.541 268.079L286.776 282.669C292.854 285.552 298.531 292.998 297.033 299.099C296.191 302.522 293.031 306.443 283.114 306.867C284.906 311.515 285.646 317.113 283.37 321.644C281.648 325.076 278.512 327.409 274.035 328.611C276.166 333.268 277.418 339.019 275.585 343.653C274.621 346.094 272.341 349.326 266.962 350.876C263.076 352.017 258.892 351.878 254.876 350.462C246.072 347.439 242.502 345.381 240.929 344.096L181.233 364.386C180.042 364.82 178.869 365.267 177.706 365.709C171.624 368.024 165.704 370.273 159.036 370.273L159.031 370.264Z" fill="#6D31CD" />
+          <path d="M130.049 179.343C106.916 179.343 88.0967 160.51 88.0967 137.36C88.0967 114.21 106.916 95.3765 130.049 95.3765C153.182 95.3765 172.001 114.21 172.001 137.36C172.001 160.51 153.182 179.343 130.049 179.343ZM130.049 101.757C110.434 101.757 94.4721 117.73 94.4721 137.36C94.4721 156.989 110.429 172.963 130.049 172.963C149.668 172.963 165.625 156.994 165.625 137.36C165.625 117.726 149.668 101.757 130.049 101.757Z" fill="#D7FF0F" />
+          <path d="M239.175 179.343C216.042 179.343 197.223 160.51 197.223 137.36C197.223 114.21 216.042 95.3765 239.175 95.3765C262.308 95.3765 281.127 114.21 281.127 137.36C281.127 160.51 262.308 179.343 239.175 179.343ZM239.175 101.757C219.56 101.757 203.598 117.73 203.598 137.36C203.598 156.989 219.555 172.963 239.175 172.963C258.794 172.963 274.751 156.994 274.751 137.36C274.751 117.726 258.794 101.757 239.175 101.757Z" fill="#D7FF0F" />
+          <path d="M170.353 141.435C169.604 141.435 168.864 141.076 168.408 140.41C167.677 139.339 167.952 137.872 169.027 137.141C175.663 132.61 189.712 128.679 201.215 136.433C202.29 137.159 202.579 138.622 201.853 139.698C201.127 140.773 199.666 141.057 198.591 140.336C187.897 133.131 175.537 138.389 171.679 141.025C171.274 141.3 170.814 141.435 170.358 141.435H170.353Z" fill="#D7FF0F" />
+          <path d="M131.429 151.657C135.695 151.657 139.154 146.027 139.154 139.083C139.154 132.138 135.695 126.509 131.429 126.509C127.163 126.509 123.704 132.138 123.704 139.083C123.704 146.027 127.163 151.657 131.429 151.657Z" fill="#6D31CD" />
+          <path d="M231.853 151.657C236.119 151.657 239.578 146.027 239.578 139.083C239.578 132.138 236.119 126.509 231.853 126.509C227.587 126.509 224.128 132.138 224.128 139.083C224.128 146.027 227.587 151.657 231.853 151.657Z" fill="#6D31CD" />
+          <path d="M191.098 218.639C186.487 218.639 182.052 217.801 177.817 216.125C165.974 211.435 158.365 200.933 155.187 192.672C154.321 190.413 155.443 187.884 157.7 187.013C159.957 186.147 162.484 187.269 163.354 189.528C165.862 196.057 171.828 204.333 181.037 207.984C189.13 211.188 198.456 210.294 208.745 205.32C210.918 204.268 213.533 205.18 214.585 207.36C215.637 209.539 214.725 212.152 212.547 213.205C205.055 216.823 197.879 218.639 191.094 218.639H191.098Z" fill="#6D31CD" />
+        </g>
+        <defs>
+          <clipPath id="clip0_91_1961">
+            <rect width="475" height="570" fill="white" transform="translate(-26)" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* CTA */}
+      <div className="absolute inset-x-0 bottom-0 px-6 pb-12">
         <Link
-          href={"/accroche/usage" as Route}
-          className="flex w-full items-center justify-center rounded-lg bg-aria-violet px-5 py-5 text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
+          href={"/accroche" as Route}
+          className="flex w-full items-center justify-center gap-3 rounded-lg bg-aria-violet px-5 py-5 text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
         >
-          Continuer
+          Commencer avec ARIA
+          <svg width={20} height={20} viewBox="0 0 13 13" fill="none" aria-hidden className="shrink-0">
+            <path
+              d="M6.15719 0.248322C6.48828 -0.0827731 7.02497 -0.0827731 7.35606 0.248322L12.7515 5.6438C13.0826 5.97489 13.0826 6.51157 12.7515 6.84267L7.35606 12.2381C7.02496 12.5692 6.48828 12.5692 6.15719 12.2381C5.82609 11.907 5.82609 11.3704 6.15719 11.0393L10.1054 7.09105L0.84782 7.09105C0.379582 7.09105 0 6.71147 0 6.24323C0 5.77499 0.379582 5.39541 0.84782 5.39541L10.1054 5.39541L6.15719 1.44719C5.82609 1.1161 5.82609 0.579416 6.15719 0.248322Z"
+              fill="currentColor"
+            />
+          </svg>
         </Link>
       </div>
     </main>

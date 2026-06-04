@@ -1,22 +1,25 @@
+"use client";
+
 import BadgeScreen from "@/components/badge-screen";
+import { useProgress } from "@/lib/progress";
 
 /**
  * Badge "Engagé" — récompense de fin de quiz (maquette node 91-1782).
- * NB : la maquette réutilise le visuel + les textes du Badge Responsable ;
- * on remplace par le bon badge (avion) et un message/CTA adaptés au post-quiz.
+ * XP = 50 par bonne réponse au quiz. Continuer → page de résultats.
  */
 export default function BadgeEngagePage() {
+  const { xp } = useProgress();
   return (
     <BadgeScreen
       badgeImage="/images/badge-engage.svg"
       badgeWidth={140}
       badgeLabel="Badge Engagé"
-      xp="200 XP"
+      xp={`${xp.engage} XP`}
       mascotImage="/images/aria-mascot-premierpas.png"
       mascotWidth={117}
       mascotSide="right"
       mascotMessage={
-        "Bravo, tu es allé jusqu'au bout !\nTu as maintenant les clés pour utiliser l'IA en classe, sereinement."
+        "Bravo, vous êtes allé jusqu'au bout !\nVous avez maintenant les clés pour utiliser l'IA en classe, sereinement."
       }
       ctaLabel="Voir mes résultats"
       ctaHref="/quiz/resultat"
