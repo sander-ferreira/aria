@@ -16,5 +16,5 @@ export default async function CasPage({ params }: { params: Promise<{ id: string
     notFound();
   }
 
-  return <CasDetail data={data} />;
+  return <CasDetail data={data} id={id} />;
 }

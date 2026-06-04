@@ -1,11 +1,25 @@
 "use client";
 
+import type { Route } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import type { CasData } from "@/app/possibilites/cas/cas-data";
+import { CAS_DATA, type CasData } from "@/app/possibilites/cas/cas-data";
+
+/** Cas du parcours "Les possibilités" mémorisés comme vus (par session). */
+const STORAGE_KEY = "aria-possibilites-cas-vus";
+const TOTAL_CAS = Object.keys(CAS_DATA).length;
+
+function readCasVus(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? "[]") as string[];
+  } catch {
+    return [];
+  }
+}
 
 function CloseIcon({ className }: { className?: string }) {
   return (
@@ -32,23 +46,37 @@ const TABS = [
   { key: "apres", label: "Après IA" },
 ] as const;
 
-export default function CasDetail({ data }: { data: CasData }) {
+export default function CasDetail({ data, id }: { data: CasData; id: string }) {
+  const router = useRouter();
   const [tab, setTab] = useState<"avant" | "apres">("avant");
-  // Couleur de la queue de bulle (= fond de la bulle), en classe littérale pour Tailwind
-  const tailColor =
-    data.bubbleBg === "bg-aria-violet" ? "border-r-aria-violet" : "border-r-aria-lime";
+
+  // Mémorise ce cas comme "vu" dès l'affichage
+  useEffect(() => {
+    const vus = new Set(readCasVus());
+    vus.add(id);
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify([...vus]));
+  }, [id]);
+
+  // Fermeture : si les 4 cas ont été vus → badge, sinon retour à l'intro (peu importe l'ordre)
+  function handleClose() {
+    const vus = new Set(readCasVus());
+    vus.add(id);
+    const next = vus.size >= TOTAL_CAS ? "/possibilites/badge" : "/possibilites";
+    router.push(next as Route);
+  }
 
   return (
     <main className={`font-satoshi flex h-dvh w-full flex-col overflow-hidden ${data.bg}`}>
       {/* Barre haute : fermeture */}
       <div className="px-6 pt-6">
-        <Link
-          href="/possibilites"
+        <button
+          type="button"
+          onClick={handleClose}
           aria-label="Fermer"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-aria-creme active:scale-90 transition-transform"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-aria-creme transition-transform active:scale-90"
         >
           <CloseIcon className={data.closeColor} />
-        </Link>
+        </button>
       </div>
 
       {/* Contenu (entrée animée) */}
@@ -111,7 +139,7 @@ export default function CasDetail({ data }: { data: CasData }) {
                 <div className="flex flex-col gap-9">
                   <BlocInfo image={data.apres.image} text={data.apres.text} alt={data.title} />
                   {/* Message de la mascotte */}
-                  <div className="flex items-start gap-2">
+                  <div className="flex items-start gap-8">
                     <Image
                       src={data.apres.mascot}
                       alt="Aria"
@@ -119,17 +147,19 @@ export default function CasDetail({ data }: { data: CasData }) {
                       height={91}
                       className="h-[91px] w-[76px] shrink-0"
                     />
-                    <div className="relative flex-1">
-                      <div
-                        className={`absolute top-[18px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent ${tailColor}`}
-                      />
-                      <div
-                        className={`rounded-2xl p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)] ${data.bubbleBg}`}
-                      >
+                    {/* drop-shadow (filtre) → ombre unique sur bulle + pointe */}
+                    <div className="relative flex-1 drop-shadow-[0px_2px_12px_rgba(0,0,0,0.12)]">
+                      <div className={`rounded-2xl p-5 ${data.bubbleBg}`}>
                         <p className={`text-[14px] leading-[18px] font-bold ${data.bubbleText}`}>
                           {data.apres.mascotMessage}
                         </p>
                       </div>
+                      {/* Pointe : triangle vers la mascotte (gauche), même couleur que la bulle */}
+                      <div
+                        aria-hidden
+                        style={{ clipPath: "polygon(100% 0, 100% 100%, 0 50%)" }}
+                        className={`absolute top-1/2 right-full -mr-[2px] h-7 w-[18px] -translate-y-1/2 ${data.bubbleBg}`}
+                      />
                     </div>
                   </div>
                 </div>

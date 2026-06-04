@@ -17,14 +17,6 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
-function CrossIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" />
-    </svg>
-  );
-}
-
 /** Pastille du compteur d'erreurs : numéro pointillé, ou check une fois trouvée */
 function Slot({ index, found }: { index: number; found: boolean }) {
   if (found) {
@@ -53,8 +45,45 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
     lastSegment == null
       ? null
       : lastSegment.isError
-        ? { variant: "right" as const, title: "Bien vu", text: lastSegment.explanation ?? "" }
+        ? { variant: "right" as const, title: "Bonne réponse !", text: lastSegment.explanation ?? "" }
         : { variant: "wrong" as const, title: data.wrongFeedback.title, text: data.wrongFeedback.text };
+
+  // Mascottes selon l'expression (réflexion par défaut, sourire en bonne réponse)
+  const MASCOT_NEUTRE = "/images/aria-mascot-exercice.png";
+  const MASCOT_OK = "/images/aria-mascot-exercice-ok.png";
+
+  // La bulle de la mascotte (en haut) porte le feedback : neutre (crème) au départ,
+  // orange en cas d'erreur, lime quand l'erreur est trouvée. (maquette 19-2427 / 79-1209)
+  const bubble =
+    feedback == null
+      ? {
+          key: "neutral",
+          bg: "bg-aria-creme",
+          title: data.bubbleTitle,
+          titleColor: "text-aria-violet",
+          text: data.bubbleText,
+          textColor: "text-aria-violet",
+          mascot: MASCOT_NEUTRE,
+        }
+      : feedback.variant === "right"
+        ? {
+            key: `right-${lastTap}`,
+            bg: "bg-aria-lime",
+            title: feedback.title,
+            titleColor: "text-aria-violet",
+            text: feedback.text,
+            textColor: "text-aria-violet",
+            mascot: MASCOT_OK,
+          }
+        : {
+            key: `wrong-${lastTap}`,
+            bg: "bg-aria-orange",
+            title: feedback.title,
+            titleColor: "text-aria-creme",
+            text: feedback.text,
+            textColor: "text-aria-creme",
+            mascot: MASCOT_NEUTRE,
+          };
 
   function handleTap(i: number) {
     setLastTap(i);
@@ -70,24 +99,50 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
     <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme pb-8">
       <ProgressHeader step={3} xp="400 XP" />
 
-      {/* Mascotte + bulle */}
-      <section className="flex items-end gap-2 px-6 pt-6">
-        <Image
-          src="/images/aria-mascot.svg"
-          alt="Aria"
-          width={79}
-          height={94}
-          priority
-          className="h-[94px] w-[79px] shrink-0"
-        />
-        <div className="relative flex-1">
-          <div className="absolute top-1/2 -left-[14px] h-0 w-0 -translate-y-1/2 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />
-          <div className="flex flex-col gap-5 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-            <h1 className="text-[16px] leading-7 font-black text-aria-violet">{data.bubbleTitle}</h1>
-            <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-              {data.bubbleText}
-            </p>
-          </div>
+      {/* Mascotte + bulle (porte le feedback : crème → orange si erreur, lime si trouvé) */}
+      <section className="flex items-end gap-5 px-6 pt-6">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={bubble.mascot}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="shrink-0"
+          >
+            <Image
+              src={bubble.mascot}
+              alt="Aria"
+              width={87}
+              height={104}
+              priority
+              className="h-[104px] w-[87px]"
+            />
+          </motion.div>
+        </AnimatePresence>
+        {/* Bulle — drop-shadow (filtre) → ombre unique bulle + pointe */}
+        <div className="relative flex-1 drop-shadow-[0px_2px_12px_rgba(0,0,0,0.12)]">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={bubble.key}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="relative"
+            >
+              <div className={`flex flex-col gap-5 rounded-2xl p-5 ${bubble.bg}`}>
+                <h2 className={`text-[16px] leading-7 font-black ${bubble.titleColor}`}>{bubble.title}</h2>
+                <p className={`text-[14px] leading-[18px] font-medium ${bubble.textColor}`}>{bubble.text}</p>
+              </div>
+              {/* Pointe : à l'intérieur du bloc animé → apparaît/disparaît avec la bulle */}
+              <div
+                aria-hidden
+                style={{ clipPath: "polygon(100% 0, 100% 100%, 0 50%)" }}
+                className={`absolute top-1/2 right-full -mr-[2px] h-7 w-[18px] -translate-y-1/2 ${bubble.bg}`}
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
@@ -136,50 +191,6 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
             )}
           </p>
         </div>
-
-        {/* Feedback */}
-        <AnimatePresence mode="wait">
-          {feedback && (
-            <motion.div
-              key={`${feedback.variant}-${lastTap}`}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className={`flex gap-3 rounded-2xl p-4 ${
-                feedback.variant === "right" ? "bg-aria-lime" : "bg-aria-orange"
-              }`}
-            >
-              <span
-                className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
-                  feedback.variant === "right" ? "text-aria-violet" : "text-aria-lime"
-                }`}
-              >
-                {feedback.variant === "right" ? (
-                  <CheckIcon className="h-4 w-4" />
-                ) : (
-                  <CrossIcon className="h-4 w-4" />
-                )}
-              </span>
-              <div className="flex flex-col gap-1">
-                <p
-                  className={`text-[16px] leading-7 font-black ${
-                    feedback.variant === "right" ? "text-aria-violet" : "text-aria-lime"
-                  }`}
-                >
-                  {feedback.title}
-                </p>
-                <p
-                  className={`text-[14px] leading-[18px] font-medium ${
-                    feedback.variant === "right" ? "text-aria-violet" : "text-aria-lime"
-                  }`}
-                >
-                  {feedback.text}
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* CTA (une fois les erreurs trouvées) */}
         <AnimatePresence>

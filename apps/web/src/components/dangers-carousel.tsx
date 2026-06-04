@@ -88,12 +88,12 @@ export default function DangersCarousel() {
       {/* Mascotte + bulle */}
       <section className="flex items-end gap-2 px-6 pt-6">
         <Image
-          src="/images/aria-mascot.svg"
+          src="/images/aria-mascot-exercice.png"
           alt="Aria"
-          width={79}
-          height={94}
+          width={87}
+          height={104}
           priority
-          className="h-[94px] w-[79px] shrink-0"
+          className="h-[104px] w-[87px] shrink-0"
         />
         <div className="relative flex-1">
           <div className="absolute top-1/2 -left-[14px] h-0 w-0 -translate-y-1/2 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />

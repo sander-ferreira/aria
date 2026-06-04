@@ -10,6 +10,9 @@ export default function BadgePremierPasPage() {
       badgeImage="/images/badge-premiers-pas.svg"
       badgeLabel="Badge Premier Pas"
       xp="200 XP"
+      mascotImage="/images/aria-mascot-premierpas.png"
+      mascotWidth={117}
+      mascotSide="right"
       mascotMessage={"Tu vois ce que je veux dire maintenant ?\nMais on n'a pas encore parlé des règles…"}
       ctaLabel="Continuer"
       ctaHref="/limites"
