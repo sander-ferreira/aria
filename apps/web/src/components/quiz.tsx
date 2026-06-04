@@ -24,7 +24,7 @@ function CrossIcon({ className }: { className?: string }) {
   );
 }
 
-const FINISH_HREF = "/quiz/resultat";
+const FINISH_HREF = "/quiz/badge";
 
 export default function Quiz() {
   const router = useRouter();
@@ -82,30 +82,26 @@ export default function Quiz() {
           })}
         </div>
 
-        {/* Feedback */}
+        {/* Feedback : mascotte + bulle (maquette 79-1353) */}
         <AnimatePresence>
           {answered && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="flex items-start gap-2"
+              className="flex items-end gap-5"
             >
               <Image
-                src="/images/aria-mascot.svg"
+                src={isCorrect ? "/images/aria-mascot-exercice-ok.png" : "/images/aria-mascot-faux.png"}
                 alt="Aria"
-                width={79}
-                height={94}
-                className="h-[94px] w-[79px] shrink-0"
+                width={87}
+                height={104}
+                className="h-[104px] w-[87px] shrink-0"
               />
-              <div className="relative flex-1">
+              {/* Bulle — drop-shadow (filtre) → ombre unique bulle + pointe */}
+              <div className="relative flex-1 drop-shadow-[0px_2px_12px_rgba(0,0,0,0.12)]">
                 <div
-                  className={`absolute top-[18px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent ${
-                    isCorrect ? "border-r-aria-lime" : "border-r-aria-orange"
-                  }`}
-                />
-                <div
-                  className={`flex flex-col gap-2 rounded-2xl p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)] ${
+                  className={`flex flex-col gap-2 rounded-2xl p-5 ${
                     isCorrect ? "bg-aria-lime" : "bg-aria-orange"
                   }`}
                 >
@@ -124,6 +120,14 @@ export default function Quiz() {
                     {isCorrect ? q.bonneText : q.fausseText}
                   </p>
                 </div>
+                {/* Pointe : triangle vers la mascotte (gauche), même couleur que la bulle */}
+                <div
+                  aria-hidden
+                  style={{ clipPath: "polygon(100% 0, 100% 100%, 0 50%)" }}
+                  className={`absolute top-1/2 right-full -mr-[2px] h-7 w-[18px] -translate-y-1/2 ${
+                    isCorrect ? "bg-aria-lime" : "bg-aria-orange"
+                  }`}
+                />
               </div>
             </motion.div>
           )}

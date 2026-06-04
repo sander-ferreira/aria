@@ -32,7 +32,7 @@ export type CasData = {
 };
 
 const PHOTO = "/images/cas-photo.png";
-const MASCOT_CREAM = "/images/aria-mascot-message-cream.png";
+const MASCOT_CAS1 = "/images/aria-mascot-cas1.png";
 const MASCOT_CAS2 = "/images/aria-mascot-cas2.png";
 const MASCOT_LAVANDE = "/images/aria-mascot-lavande.png";
 
@@ -56,22 +56,22 @@ export const CAS_DATA: Record<string, CasData> = {
     apres: {
       image: PHOTO,
       text: "« Explique la notion de photosynthèse à un élève de 4ème qui aime le football » → analogie sur mesure en 20 secondes → vous la testez, vous la gardez ou vous en demandez une autre.",
-      mascot: MASCOT_CREAM,
+      mascot: MASCOT_CAS1,
       mascotMessage: "Vous ne manquez plus de mots. Vous choisissez juste le meilleur.",
     },
   },
   "2": {
     num: "Cas 2",
-    title: "Différencier un exercice selon les niveaux",
+    title: "Adapter un exercice à chaque niveau",
     context:
       "Vous avez 28 élèves. 8 sont en difficulté, 6 sont en avance. Vous n'avez pas le temps de faire 3 versions.",
     bg: "bg-aria-orange",
     accent: "text-aria-creme",
     closeColor: "text-aria-orange",
-    switchActiveBg: "bg-aria-lime",
-    switchActiveText: "text-aria-violet",
-    bubbleBg: "bg-aria-lime",
-    bubbleText: "text-aria-violet",
+    switchActiveBg: "bg-aria-lavande",
+    switchActiveText: "text-aria-creme",
+    bubbleBg: "bg-aria-lavande",
+    bubbleText: "text-aria-creme",
     avant: {
       image: PHOTO,
       text: "45 min de travail supplémentaire, souvent abandonné faute de temps.",

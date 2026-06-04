@@ -47,20 +47,26 @@ export default function BadgeScreen({
       className="h-32 w-auto shrink-0"
     />
   );
+  // Pointe : vrai triangle qui pointe vers la mascotte (cf. maquette, Polygon 32×28)
+  const tailClip =
+    mascotSide === "left"
+      ? "polygon(100% 0, 100% 100%, 0 50%)"
+      : "polygon(0 0, 0 100%, 100% 50%)";
   const bubble = (
-    <div className="relative flex-1">
-      <div
-        className={`absolute top-[38px] h-0 w-0 border-y-[14px] border-y-transparent ${
-          mascotSide === "left"
-            ? "-left-[14px] border-r-[16px] border-r-aria-creme"
-            : "-right-[14px] border-l-[16px] border-l-aria-creme"
-        }`}
-      />
-      <div className="rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+    // drop-shadow (filtre) → l'ombre suit la silhouette bulle + pointe (une seule ombre)
+    <div className="relative flex-1 drop-shadow-[0px_2px_12px_rgba(0,0,0,0.12)]">
+      <div className="relative rounded-2xl bg-aria-creme p-5">
         <p className="text-[14px] leading-[18px] font-medium whitespace-pre-line text-aria-violet">
           {mascotMessage}
         </p>
       </div>
+      <div
+        aria-hidden
+        style={{ clipPath: tailClip }}
+        className={`absolute top-1/2 h-7 w-[18px] -translate-y-1/2 bg-aria-creme ${
+          mascotSide === "left" ? "right-full -mr-[2px]" : "left-full -ml-[2px]"
+        }`}
+      />
     </div>
   );
 
@@ -82,7 +88,9 @@ export default function BadgeScreen({
             priority
             className="h-32 w-auto"
           />
-          <span className="text-[16px] leading-7 font-black text-aria-orange">{badgeLabel}</span>
+          <span className="text-[16px] leading-7 font-black text-aria-orange">
+            {badgeLabel}
+          </span>
         </motion.div>
 
         <motion.div
@@ -94,7 +102,9 @@ export default function BadgeScreen({
           <h1 className="text-[36px] leading-10 font-black text-aria-violet">
             Nouveau Badge débloqué&nbsp;!
           </h1>
-          <p className="text-[16px] leading-7 font-black text-aria-lavande">Vous avez gagné {xp}</p>
+          <p className="text-[16px] leading-7 font-black text-aria-lavande">
+            Vous avez gagné {xp}
+          </p>
         </motion.div>
       </div>
 
@@ -105,7 +115,7 @@ export default function BadgeScreen({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-5">
           {mascotSide === "left" ? (
             <>
               {mascot}
