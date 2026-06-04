@@ -59,7 +59,7 @@ export const EXERCICES: Record<string, ExerciceData> = {
     ],
     wrongFeedback: {
       title: "Pas tout à fait…",
-      text: "Cette information est correcte. Cherche encore ! L'erreur est souvent dans un nom propre ou une date précise.",
+      text: "Cette information est correcte. Cherchez encore ! L'erreur est souvent dans un nom propre ou une date précise.",
     },
     continueLabel: "Continuer vers les dangers",
     continueHref: "/dangers",

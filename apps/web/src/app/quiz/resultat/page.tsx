@@ -1,9 +1,10 @@
 "use client";
 
-import type { Route } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
+
+import { resetProgress, useProgress } from "@/lib/progress";
 
 const BADGES = [
   { src: "/images/badge-curieux.png", label: "Curieux", w: 57 },
@@ -12,11 +13,51 @@ const BADGES = [
   { src: "/images/badge-engage.png", label: "Engagé", w: 58 },
 ];
 
+type Palier = { niveau: string; score: string; message: string };
+
+/** Palier de résultat selon le nombre de bonnes réponses au quiz. */
+function palierFor(correct: number): Palier {
+  if (correct >= 5) {
+    return {
+      niveau: "Niveau Expert",
+      score: "Score Parfait",
+      message:
+        "Vous maîtrisez déjà les bases. La formation va vous donner la pratique pour aller encore plus loin.",
+    };
+  }
+  if (correct >= 3) {
+    return {
+      niveau: "Niveau Confirmé",
+      score: "Score Excellent",
+      message:
+        "Vous êtes sur la bonne voie. Encore un peu et vous formez vos collègues.",
+    };
+  }
+  return {
+    niveau: "Niveau Explorateur",
+    score: "Score Prometteur",
+    message: "C'est exactement pour ça que la formation existe.",
+  };
+}
+
 /**
  * Page de résultats du quiz final (récap niveau, score, XP, badges).
- * Mobile-first. Score affiché statique (parfait) — à brancher sur le score réel.
+ * Le palier (Expert / Confirmé / Explorateur) et l'XP totale dépendent du
+ * score réel obtenu au quiz. Mobile-first.
  */
 export default function QuizResultatPage() {
+  const router = useRouter();
+  const { state, xp } = useProgress();
+
+  const total = state.quizTotal || 5;
+  const correct = state.quizCorrect;
+  const palier = palierFor(correct);
+
+  function restart() {
+    resetProgress();
+    router.push("/");
+  }
+
   return (
     <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme px-6 pt-16 pb-8">
       <motion.div
@@ -28,12 +69,15 @@ export default function QuizResultatPage() {
         {/* Niveau + score */}
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-3 text-center">
-            <span className="text-[16px] leading-7 font-black text-aria-lavande">Niveau Expert</span>
-            <h1 className="text-[36px] leading-10 font-black text-aria-violet">Score Parfait</h1>
+            <span className="text-[16px] leading-7 font-black text-aria-lavande">
+              {palier.niveau}
+            </span>
+            <h1 className="text-[36px] leading-10 font-black text-aria-violet">
+              {palier.score}
+            </h1>
           </div>
           <p className="text-center text-[14px] leading-5 font-medium text-aria-violet">
-            Tu maîtrises déjà les bases. La formation va te donner la pratique pour aller encore
-            plus loin.
+            {palier.message}
           </p>
         </div>
 
@@ -41,18 +85,29 @@ export default function QuizResultatPage() {
         <div className="flex flex-col gap-10">
           <div className="flex items-stretch gap-3">
             <div className="flex flex-1 flex-col items-center gap-4 rounded-2xl bg-aria-violet px-3 py-5 text-center">
-              <span className="text-[24px] leading-10 font-black text-aria-creme">5/5</span>
-              <span className="text-[16px] leading-7 font-black text-aria-creme">Bonnes réponses</span>
+              <span className="text-[24px] leading-10 font-black text-aria-creme">
+                {correct}/{total}
+              </span>
+              <span className="text-[16px] leading-7 font-black text-aria-creme">
+                Bonnes réponses
+              </span>
             </div>
             <div className="flex flex-1 flex-col items-center gap-4 rounded-2xl bg-aria-lime px-3 py-5 text-center">
-              <span className="text-[24px] leading-10 font-black text-aria-violet">600 XP</span>
-              <span className="text-[16px] leading-7 font-black text-aria-violet">Total</span>
+              <span className="text-[24px] leading-10 font-black text-aria-violet">
+                {xp.total} XP
+              </span>
+              <span className="text-[16px] leading-7 font-black text-aria-violet">
+                Total
+              </span>
             </div>
           </div>
 
           <div className="flex items-start justify-between">
             {BADGES.map((badge) => (
-              <div key={badge.label} className="flex w-16 flex-col items-center gap-3 text-center">
+              <div
+                key={badge.label}
+                className="flex w-16 flex-col items-center gap-3 text-center"
+              >
                 <Image
                   src={badge.src}
                   alt={badge.label}
@@ -83,19 +138,21 @@ export default function QuizResultatPage() {
               <div className="absolute top-[38px] -left-[14px] h-0 w-0 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />
               <div className="rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
                 <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-                  Tu fais partie de ceux qui ont choisi de comprendre plutôt que d&apos;ignorer. La
-                  formation est faite pour des gens comme toi.
+                  Vous faites partie de ceux qui ont choisi de comprendre plutôt
+                  que d&apos;ignorer. La formation est faite pour des gens comme
+                  vous.
                 </p>
               </div>
             </div>
           </div>
 
-          <Link
-            href={"/" as Route}
+          <button
+            type="button"
+            onClick={restart}
             className="w-full rounded-lg bg-aria-violet py-5 text-center text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
           >
             Continuer
-          </Link>
+          </button>
         </div>
       </motion.div>
     </main>

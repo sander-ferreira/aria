@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import ProgressHeader from "@/components/progress-header";
+import ProgressTracker from "@/components/progress-tracker";
 
 const POINTS = [
   "Elles les stockent sur leurs serveurs",
@@ -16,8 +17,10 @@ const POINTS = [
  */
 export default function DangersRecommandationsPage() {
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col overflow-hidden bg-aria-creme">
-      <ProgressHeader step={3} xp="400 XP" />
+    <main className="font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden bg-aria-creme">
+      {/* Dangers lus → +100 XP (badge Responsable) */}
+      <ProgressTracker event="dangersRead" />
+      <ProgressHeader step={3} />
 
       {/* Mascotte + bulle */}
       <section className="flex items-end gap-2 px-6 pt-6">
@@ -31,11 +34,13 @@ export default function DangersRecommandationsPage() {
         />
         <div className="relative flex-1">
           <div className="absolute top-1/2 -left-[14px] h-0 w-0 -translate-y-1/2 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />
-          <div className="flex flex-col gap-5 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
-            <h1 className="text-[16px] leading-7 font-black text-aria-violet">Nos recommandations</h1>
+          <div className="flex flex-col gap-2 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+            <h1 className="text-[16px] leading-7 font-black text-aria-violet">
+              Nos recommandations
+            </h1>
             <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-              Pas de jugement sur ce que vous utilisiez avant. Voilà juste pourquoi on vous
-              recommande autre chose.
+              Pas de jugement sur ce que vous utilisiez avant. Voilà juste
+              pourquoi on vous recommande autre chose.
             </p>
           </div>
         </div>
@@ -46,7 +51,7 @@ export default function DangersRecommandationsPage() {
         <h2 className="text-[16px] leading-5 font-black text-aria-violet">
           Ce que font les IA grand public avec vos données
         </h2>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4 mt-8">
           {POINTS.map((point) => (
             <div
               key={point}

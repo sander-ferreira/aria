@@ -4,15 +4,27 @@ import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { ExerciceData } from "@/app/limites/exemple/exercice-data";
 import ProgressHeader from "@/components/progress-header";
+import { recordLimites, XP } from "@/lib/progress";
 
 function CheckIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12.5l4.5 4.5L19 7"
+        stroke="currentColor"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -36,17 +48,36 @@ function Slot({ index, found }: { index: number; found: boolean }) {
 export default function LimiteExercice({ data }: { data: ExerciceData }) {
   const [tapped, setTapped] = useState<Set<number>>(new Set());
   const [lastTap, setLastTap] = useState<number | null>(null);
+  // "Du premier coup" : une phrase correcte tapée par erreur gèle le bonus d'XP
+  const [missed, setMissed] = useState(false);
+  // Erreurs trouvées tant qu'aucun mauvais clic n'a été fait (→ 50 XP chacune)
+  const [cleanFinds, setCleanFinds] = useState(0);
 
-  const foundCount = [...tapped].filter((i) => data.segments[i]?.isError).length;
+  const foundCount = [...tapped].filter(
+    (i) => data.segments[i]?.isError,
+  ).length;
   const complete = foundCount >= data.errorCount;
+
+  // Enregistre l'XP "limites" une fois les erreurs trouvées (badge Responsable)
+  useEffect(() => {
+    if (complete) recordLimites(cleanFinds * XP.parLimite);
+  }, [complete, cleanFinds]);
 
   const lastSegment = lastTap !== null ? data.segments[lastTap] : null;
   const feedback =
     lastSegment == null
       ? null
       : lastSegment.isError
-        ? { variant: "right" as const, title: "Bonne réponse !", text: lastSegment.explanation ?? "" }
-        : { variant: "wrong" as const, title: data.wrongFeedback.title, text: data.wrongFeedback.text };
+        ? {
+            variant: "right" as const,
+            title: "Bonne réponse !",
+            text: lastSegment.explanation ?? "",
+          }
+        : {
+            variant: "wrong" as const,
+            title: data.wrongFeedback.title,
+            text: data.wrongFeedback.text,
+          };
 
   // Mascottes selon l'expression (réflexion par défaut, sourire en bonne réponse)
   const MASCOT_NEUTRE = "/images/aria-mascot-exercice.png";
@@ -87,8 +118,16 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
 
   function handleTap(i: number) {
     setLastTap(i);
+    if (tapped.has(i)) return;
+    const seg = data.segments[i];
+    if (seg?.isError) {
+      // Erreur trouvée : compte pour l'XP si aucun mauvais clic n'a précédé
+      if (!missed) setCleanFinds((c) => c + 1);
+    } else {
+      // Phrase correcte tapée par erreur → plus de bonus "premier coup"
+      setMissed(true);
+    }
     setTapped((prev) => {
-      if (prev.has(i)) return prev;
       const next = new Set(prev);
       next.add(i);
       return next;
@@ -97,7 +136,7 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
 
   return (
     <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme pb-8">
-      <ProgressHeader step={3} xp="400 XP" />
+      <ProgressHeader step={3} />
 
       {/* Mascotte + bulle (porte le feedback : crème → orange si erreur, lime si trouvé) */}
       <section className="flex items-end gap-5 px-6 pt-6">
@@ -131,9 +170,19 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="relative"
             >
-              <div className={`flex flex-col gap-5 rounded-2xl p-5 ${bubble.bg}`}>
-                <h2 className={`text-[16px] leading-7 font-black ${bubble.titleColor}`}>{bubble.title}</h2>
-                <p className={`text-[14px] leading-[18px] font-medium ${bubble.textColor}`}>{bubble.text}</p>
+              <div
+                className={`flex flex-col gap-2 rounded-2xl p-5 ${bubble.bg}`}
+              >
+                <h2
+                  className={`text-[16px] leading-7 font-black ${bubble.titleColor}`}
+                >
+                  {bubble.title}
+                </h2>
+                <p
+                  className={`text-[14px] leading-[18px] font-medium ${bubble.textColor}`}
+                >
+                  {bubble.text}
+                </p>
               </div>
               {/* Pointe : à l'intérieur du bloc animé → apparaît/disparaît avec la bulle */}
               <div
@@ -148,7 +197,9 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
 
       {/* Exercice */}
       <section className="flex flex-col gap-7 px-6 pt-7">
-        <p className="text-[16px] leading-5 font-black text-aria-violet">{data.instruction}</p>
+        <p className="text-[16px] leading-5 font-black text-aria-violet">
+          {data.instruction}
+        </p>
 
         {/* Compteur */}
         <div className="flex items-center gap-4">
@@ -158,7 +209,8 @@ export default function LimiteExercice({ data }: { data: ExerciceData }) {
             ))}
           </div>
           <span className="text-[14px] leading-[18px] font-medium text-aria-lavande">
-            {foundCount} {foundCount > 1 ? "erreurs trouvées" : "erreur trouvée"} sur{" "}
+            {foundCount}{" "}
+            {foundCount > 1 ? "erreurs trouvées" : "erreur trouvée"} sur{" "}
             {data.errorCount}
           </span>
         </div>

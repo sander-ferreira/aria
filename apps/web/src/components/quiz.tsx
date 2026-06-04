@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ProgressHeader from "@/components/progress-header";
 import { QUIZ } from "@/app/quiz/quiz-data";
+import { addQuizCorrect, finishQuiz, startQuiz } from "@/lib/progress";
 
 function CheckIcon({ className }: { className?: string }) {
   return (
@@ -36,9 +37,22 @@ export default function Quiz() {
   const isCorrect = selected === q.correctIndex;
   const isLast = current === QUIZ.length - 1;
 
+  // Démarre le quiz (score remis à zéro) → 50 XP comptabilisés à chaque bonne réponse
+  useEffect(() => {
+    startQuiz(QUIZ.length);
+  }, []);
+
+  // Répond à la question : une bonne réponse rapporte +50 XP (animation immédiate)
+  function answer(i: number) {
+    if (answered) return;
+    setSelected(i);
+    if (i === q.correctIndex) addQuizCorrect();
+  }
+
   function next() {
     if (!answered) return;
     if (isLast) {
+      finishQuiz();
       router.push(FINISH_HREF);
       return;
     }
@@ -48,7 +62,7 @@ export default function Quiz() {
 
   return (
     <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme pb-8">
-      <ProgressHeader step={4} xp="600 XP" totalSteps={4} />
+      <ProgressHeader step={4} totalSteps={4} />
 
       <div className="flex flex-1 flex-col gap-8 px-6 pt-6">
         {/* Intitulé */}
@@ -71,7 +85,7 @@ export default function Quiz() {
                 key={opt}
                 type="button"
                 disabled={answered}
-                onClick={() => setSelected(i)}
+                onClick={() => answer(i)}
                 className={`flex items-center justify-between rounded-lg px-5 py-8 text-left text-[16px] leading-5 font-black transition-colors ${cls}`}
               >
                 <span>{opt}</span>

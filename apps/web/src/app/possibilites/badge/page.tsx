@@ -13,7 +13,9 @@ export default function BadgePremierPasPage() {
       mascotImage="/images/aria-mascot-premierpas.png"
       mascotWidth={117}
       mascotSide="right"
-      mascotMessage={"Tu vois ce que je veux dire maintenant ?\nMais on n'a pas encore parlé des règles…"}
+      mascotMessage={
+        "Vous voyez ce que je veux dire maintenant ?\nMais on n'a pas encore parlé des règles…"
+      }
       ctaLabel="Continuer"
       ctaHref="/limites"
     />

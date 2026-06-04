@@ -13,7 +13,7 @@ type Risque = { title: string; text: string; bg: string; fg: string };
 const RISQUES: Risque[] = [
   {
     title: "Violation RGPD",
-    text: "Les données d'un mineur ont une protection renforcée. Leur transmission à un tiers non autorisé est illégale.",
+    text: "Les données d'une personne mineure ont une protection renforcée. Leur transmission à un tiers non autorisé est illégale.",
     bg: "bg-aria-orange",
     fg: "text-aria-creme",
   },
@@ -35,7 +35,14 @@ const CONTINUE_HREF = "/dangers/recommandations";
 
 function ArrowIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 13 13" fill="none" className={className} aria-hidden="true" width={13} height={13}>
+    <svg
+      viewBox="0 0 13 13"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+      width={13}
+      height={13}
+    >
       <path
         d="M6.15719 0.248322C6.48828 -0.0827731 7.02497 -0.0827731 7.35606 0.248322L12.7515 5.6438C13.0826 5.97489 13.0826 6.51157 12.7515 6.84267L7.35606 12.2381C7.02496 12.5692 6.48828 12.5692 6.15719 12.2381C5.82609 11.907 5.82609 11.3704 6.15719 11.0393L10.1054 7.09105L0.84782 7.09105C0.379582 7.09105 0 6.71147 0 6.24323C0 5.77499 0.379582 5.39541 0.84782 5.39541L10.1054 5.39541L6.15719 1.44719C5.82609 1.1161 5.82609 0.579416 6.15719 0.248322Z"
         fill="currentColor"
@@ -63,7 +70,9 @@ function ArrowButton({
         disabled ? "bg-aria-violet/20" : "bg-aria-violet"
       }`}
     >
-      <ArrowIcon className={`text-aria-creme ${direction === "left" ? "rotate-180" : ""}`} />
+      <ArrowIcon
+        className={`text-aria-creme ${direction === "left" ? "rotate-180" : ""}`}
+      />
     </button>
   );
 }
@@ -82,8 +91,8 @@ export default function DangersCarousel() {
   const risque = RISQUES[index];
 
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col overflow-hidden bg-aria-creme">
-      <ProgressHeader step={3} xp="400 XP" />
+    <main className="font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden bg-aria-creme">
+      <ProgressHeader step={3} />
 
       {/* Mascotte + bulle */}
       <section className="flex items-end gap-2 px-6 pt-6">
@@ -102,8 +111,8 @@ export default function DangersCarousel() {
               {"Pourquoi c'est interdit ?"}
             </h1>
             <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-              Ce n&apos;est pas une question de paranoïa. C&apos;est une question de responsabilité
-              professionnelle.
+              Ce n&apos;est pas une question de paranoïa. C&apos;est une
+              question de responsabilité professionnelle.
             </p>
           </div>
         </div>
@@ -112,12 +121,16 @@ export default function DangersCarousel() {
       {/* Contenu : intro + carrousel */}
       <section className="flex flex-col gap-10 px-6 pt-10">
         <p className="text-[16px] leading-5 font-black text-aria-violet">
-          Les données nominatives d&apos;un mineur dans une IA grand public, c&apos;est trois
-          risques simultanés.
+          Les données nominatives d&apos;une personne mineure dans une IA grand
+          public, c&apos;est trois risques simultanés.
         </p>
 
         <div className="flex items-center gap-[18px]">
-          <ArrowButton direction="left" disabled={index === 0} onClick={() => go(index - 1)} />
+          <ArrowButton
+            direction="left"
+            disabled={index === 0}
+            onClick={() => go(index - 1)}
+          />
 
           <div className="relative min-h-[180px] flex-1">
             <AnimatePresence mode="wait" initial={false}>
@@ -127,19 +140,27 @@ export default function DangersCarousel() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -24 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
-                className={`flex flex-col gap-5 rounded-2xl px-6 py-7 ${risque.bg}`}
+                className={`flex flex-col gap-4 rounded-2xl px-6 py-7 ${risque.bg}`}
               >
-                <span className={`text-center text-[16px] leading-5 font-black ${risque.fg}`}>
+                <span
+                  className={`text-center text-[16px] leading-5 font-black ${risque.fg}`}
+                >
                   {risque.title}
                 </span>
-                <p className={`text-center text-[14px] leading-[18px] font-medium ${risque.fg}`}>
+                <p
+                  className={`text-center text-[14px] leading-[18px] font-medium ${risque.fg}`}
+                >
                   {risque.text}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <ArrowButton direction="right" disabled={index === last} onClick={() => go(index + 1)} />
+          <ArrowButton
+            direction="right"
+            disabled={index === last}
+            onClick={() => go(index + 1)}
+          />
         </div>
       </section>
 

@@ -10,8 +10,8 @@ import ProgressHeader from "@/components/progress-header";
  */
 export default function DangersReglesPage() {
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col overflow-hidden bg-aria-creme">
-      <ProgressHeader step={3} xp="400 XP" />
+    <main className="font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden bg-aria-creme">
+      <ProgressHeader step={3} />
 
       <section className="flex items-end gap-2 px-6 pt-6">
         <Image

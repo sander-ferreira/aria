@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "../index.css";
 import Providers from "@/components/providers";
+import XpGainOverlay from "@/components/xp-gain-overlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +53,7 @@ export default function RootLayout({
           precedence="default"
         />
         <Providers>{children}</Providers>
+        <XpGainOverlay />
       </body>
     </html>
   );

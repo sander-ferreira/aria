@@ -71,7 +71,7 @@ export default function BadgeScreen({
   );
 
   return (
-    <main className="font-satoshi flex h-dvh w-full flex-col bg-aria-creme px-6">
+    <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme px-6">
       {/* Badge + textes (centrés) */}
       <div className="flex flex-1 flex-col items-center justify-center gap-10 text-center">
         <motion.div
