@@ -34,7 +34,7 @@ function BlocInfo({ image, text, alt }: { image: string; text: string; alt: stri
   return (
     <div className="flex flex-col gap-7 rounded-2xl bg-aria-creme p-4">
       <div className="relative h-32 w-full overflow-hidden rounded-2xl">
-        <Image src={image} alt={alt} fill className="object-cover" sizes="100vw" />
+        <Image src={image} alt={alt} fill priority className="object-cover" sizes="100vw" />
       </div>
       <p className="text-[16px] leading-5 font-medium text-aria-violet">{text}</p>
     </div>
@@ -145,6 +145,7 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
                       alt="Aria"
                       width={76}
                       height={91}
+                      priority
                       className="h-[91px] w-[76px] shrink-0"
                     />
                     {/* drop-shadow (filtre) → ombre unique sur bulle + pointe */}

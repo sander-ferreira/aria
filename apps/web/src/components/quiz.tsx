@@ -96,6 +96,7 @@ export default function Quiz() {
                 alt="Aria"
                 width={87}
                 height={104}
+                priority
                 className="h-[104px] w-[87px] shrink-0"
               />
               {/* Bulle — drop-shadow (filtre) → ombre unique bulle + pointe */}
