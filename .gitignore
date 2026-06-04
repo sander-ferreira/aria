@@ -12,6 +12,9 @@ build
 .env
 .env*.local
 
+# MCP config — contains secrets (Figma token). Use .mcp.json.example as template.
+.mcp.json
+
 # IDEs and editors
 .vscode/*
 !.vscode/settings.json
@@ -49,3 +52,4 @@ coverage
 .cache
 tmp
 temp
+.vercel

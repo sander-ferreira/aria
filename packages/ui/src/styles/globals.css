@@ -117,6 +117,16 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Aria brand design tokens (from Figma "Projet interfillière") */
+@theme {
+  --font-satoshi: "Satoshi", var(--font-sans);
+  --color-aria-creme: #fffdf3;
+  --color-aria-violet: #6c31cd;
+  --color-aria-lavande: #b4a0ff;
+  --color-aria-orange: #ff6f07;
+  --color-aria-lime: #d7ff0e;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
