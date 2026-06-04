@@ -41,7 +41,7 @@ export default function DangersReglesPage() {
           href={"/dangers/risques" as Route}
           className="flex w-full items-center justify-center rounded-lg bg-aria-violet px-5 py-5 text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
         >
-          Pourquoi c&apos;est important&nbsp;?
+          {"Pourquoi c'est important ?"}
         </Link>
       </div>
     </main>
