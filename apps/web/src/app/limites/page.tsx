@@ -42,6 +42,7 @@ export default function LimitesPage() {
                 src="/images/carte-limites.png"
                 alt=""
                 fill
+                priority
                 className="object-contain"
                 sizes="345px"
               />

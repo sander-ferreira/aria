@@ -47,6 +47,7 @@ export default function DangersPage() {
                 src="/images/carte-dangers.png"
                 alt=""
                 fill
+                priority
                 className="object-contain"
                 sizes="345px"
               />
