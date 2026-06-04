@@ -26,12 +26,12 @@ const RISQUES: Risque[] = [
   {
     title: "Risque pour l'école",
     text: "L'établissement peut être mis en cause. Atteinte à l'image et procédure CNIL à la clé.",
-    bg: "bg-aria-lavande",
+    bg: "bg-aria-violet",
     fg: "text-aria-creme",
   },
 ];
 
-const CONTINUE_HREF = "/outils";
+const CONTINUE_HREF = "/dangers/recommandations";
 
 function ArrowIcon({ className }: { className?: string }) {
   return (
@@ -70,15 +70,13 @@ function ArrowButton({
 
 export default function DangersCarousel() {
   const [index, setIndex] = useState(0);
-  const [maxReached, setMaxReached] = useState(0);
 
   const last = RISQUES.length - 1;
-  const complete = maxReached >= last;
+  // Le CTA ne s'active que sur la dernière slide ("Risque pour l'école")
+  const onLastSlide = index === last;
 
   function go(next: number) {
-    const clamped = Math.max(0, Math.min(last, next));
-    setIndex(clamped);
-    setMaxReached((m) => Math.max(m, clamped));
+    setIndex(Math.max(0, Math.min(last, next)));
   }
 
   const risque = RISQUES[index];
@@ -101,7 +99,7 @@ export default function DangersCarousel() {
           <div className="absolute top-1/2 -left-[14px] h-0 w-0 -translate-y-1/2 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />
           <div className="flex flex-col gap-5 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
             <h1 className="text-[16px] leading-7 font-black text-aria-violet">
-              Pourquoi c&apos;est interdit&nbsp;?
+              {"Pourquoi c'est interdit ?"}
             </h1>
             <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
               Ce n&apos;est pas une question de paranoïa. C&apos;est une question de responsabilité
@@ -147,19 +145,19 @@ export default function DangersCarousel() {
 
       {/* CTA : actif une fois les 3 risques vus */}
       <div className="mt-auto px-6 pb-8">
-        {complete ? (
+        {onLastSlide ? (
           <Link
             href={CONTINUE_HREF as Route}
             className="flex w-full items-center justify-center rounded-lg bg-aria-violet px-5 py-5 text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
           >
-            Quel outils utiliser&nbsp;?
+            {"Quel outils utiliser ?"}
           </Link>
         ) : (
           <div
             aria-disabled="true"
             className="flex w-full items-center justify-center rounded-lg bg-aria-violet/20 px-5 py-5 text-[16px] leading-5 font-black text-aria-creme"
           >
-            Quel outils utiliser&nbsp;?
+            {"Quel outils utiliser ?"}
           </div>
         )}
       </div>

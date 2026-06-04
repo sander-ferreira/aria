@@ -26,16 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Police Satoshi*/}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* Police Satoshi (Fontshare) — hoistée dans le <head> par React 19 */}
         <link
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap"
+          precedence="default"
         />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
         <Providers>{children}</Providers>
       </body>
     </html>
