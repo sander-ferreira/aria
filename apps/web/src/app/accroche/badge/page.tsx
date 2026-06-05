@@ -18,7 +18,7 @@ export default function BadgeCurieuxPage() {
         mascotWidth={143}
         mascotSide="right"
         mascotMessage={
-          "Merci pour votre honnêteté. C'est par là qu'on commence.\nC'est parti pour l'aventure ! Commençons par voir les possibilités avec l'IA"
+          "Merci pour votre honnêteté. C'est par là qu'on commence.\nC'est parti pour en découvrir plus sur l'IA"
         }
         ctaLabel="Continuer"
         ctaHref="/possibilites"
