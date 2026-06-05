@@ -45,14 +45,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-neutral-800 antialiased`}>
         {/* Police Satoshi (Fontshare) — hoistée dans le <head> par React 19 */}
         <link
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap"
           precedence="default"
         />
-        <Providers>{children}</Providers>
+        {/* App mobile-first : contenu centré dans une colonne (≤480px), fond neutre
+            autour sur desktop. En dessous de 480px (mobile), aucun changement. */}
+        <Providers>
+          <div className="relative mx-auto w-full max-w-[480px]">{children}</div>
+        </Providers>
         <XpGainOverlay />
       </body>
     </html>

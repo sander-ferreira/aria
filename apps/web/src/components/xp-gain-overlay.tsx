@@ -64,8 +64,9 @@ export default function XpGainOverlay() {
   }, []);
 
   return (
-    // Ancré juste sous la pastille XP du header (px-6 / pt-6 → ~64px de haut)
-    <div className="pointer-events-none fixed top-16 right-6 z-60 flex flex-col items-end gap-1.5">
+    // Ancré juste sous la pastille XP du header (px-6 / pt-6 → ~64px de haut),
+    // aligné sur la colonne centrée (≤480px) pour rester sous le compteur en desktop
+    <div className="pointer-events-none fixed top-16 left-1/2 z-60 flex w-full max-w-[480px] -translate-x-1/2 flex-col items-end gap-1.5 px-6">
       <AnimatePresence>
         {pops.map((pop) => (
           <motion.div
