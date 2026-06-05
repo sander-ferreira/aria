@@ -89,7 +89,7 @@ export default function AccrochePage() {
 
       {/* CTA : fixé en bas uniquement quand une matière est sélectionnée */}
       {answered ? (
-        <div className="fixed inset-x-0 bottom-0 z-40  px-6 pt-4 pb-8">
+        <div className="fixed bottom-0 left-1/2 z-40 w-full max-w-[480px] -translate-x-1/2 px-6 pt-4 pb-8">
           <Link
             href={"/accroche/usage" as Route}
             className="flex w-full items-center justify-center rounded-lg bg-aria-violet px-5 py-5 text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
