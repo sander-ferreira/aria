@@ -15,12 +15,7 @@ export default function BadgeEngagePage() {
       badgeWidth={140}
       badgeLabel="Badge Engagé"
       xp={`${xp.engage} XP`}
-      mascotImage="/images/aria-mascot-premierpas.png"
-      mascotWidth={117}
-      mascotSide="right"
-      mascotMessage={
-        "Bravo, vous êtes allé jusqu'au bout !\nVous avez maintenant les clés pour utiliser l'IA en classe, sereinement."
-      }
+      hideMascot
       ctaLabel="Voir mes résultats"
       ctaHref="/quiz/resultat"
     />

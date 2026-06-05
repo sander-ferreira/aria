@@ -9,7 +9,7 @@ export type BadgeScreenProps = {
   badgeImage: string;
   badgeLabel: string;
   /** Texte de la bulle de la mascotte (les "\n" deviennent des retours à la ligne) */
-  mascotMessage: string;
+  mascotMessage?: string;
   ctaLabel: string;
   ctaHref: string;
   xp?: string;
@@ -19,6 +19,8 @@ export type BadgeScreenProps = {
   mascotWidth?: number;
   /** Côté de la mascotte (la bulle est de l'autre côté) */
   mascotSide?: "left" | "right";
+  /** Masque la mascotte + sa bulle (ne garde que le badge, les textes et le CTA) */
+  hideMascot?: boolean;
 };
 
 /**
@@ -36,6 +38,7 @@ export default function BadgeScreen({
   mascotImage = "/images/aria-mascot-badge.png",
   mascotWidth = 107,
   mascotSide = "left",
+  hideMascot = false,
 }: BadgeScreenProps) {
   const mascot = (
     <Image
@@ -115,19 +118,21 @@ export default function BadgeScreen({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex items-start gap-5">
-          {mascotSide === "left" ? (
-            <>
-              {mascot}
-              {bubble}
-            </>
-          ) : (
-            <>
-              {bubble}
-              {mascot}
-            </>
-          )}
-        </div>
+        {!hideMascot && (
+          <div className="flex items-start gap-5">
+            {mascotSide === "left" ? (
+              <>
+                {mascot}
+                {bubble}
+              </>
+            ) : (
+              <>
+                {bubble}
+                {mascot}
+              </>
+            )}
+          </div>
+        )}
 
         <Link
           href={ctaHref as Route}
