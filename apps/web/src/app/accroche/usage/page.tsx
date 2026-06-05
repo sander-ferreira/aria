@@ -31,10 +31,11 @@ export default function AccrocheUsagePage() {
           <div className="absolute top-1/2 -left-[14px] h-0 w-0 -translate-y-1/2 border-y-[14px] border-r-[16px] border-y-transparent border-r-aria-creme" />
           <div className="flex flex-col gap-5 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
             <h1 className="text-[16px] leading-5 font-black text-aria-violet">
-              {"J'aurais une question pour toi !"}
+              {"J'aurais une question pour vous !"}
             </h1>
             <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-              Avant de commencer, j&apos;aurais besoin de connaître votre rapport à l&apos;IA.
+              Avant de commencer, j&apos;aurais besoin de connaître votre
+              rapport à l&apos;IA.
             </p>
           </div>
         </div>
@@ -43,7 +44,9 @@ export default function AccrocheUsagePage() {
       {/* Question + options */}
       <section className="flex flex-col gap-8 pt-12">
         <h2 className="text-[24px] leading-7 font-black text-aria-violet">
-          {"Vos élèves utilisent l'IA pour leurs devoirs. Et vous, avez-vous déjà utilisé une IA ?"}
+          {
+            "Vos élèves utilisent l'IA pour leurs devoirs. Et vous, avez-vous déjà utilisé une IA ?"
+          }
         </h2>
         <div className="flex flex-col gap-3">
           {OPTIONS.map((opt, i) => (
@@ -53,7 +56,9 @@ export default function AccrocheUsagePage() {
               onClick={() => setSelected(i)}
               aria-pressed={selected === i}
               className={`rounded-lg border-2 px-5 py-8 text-left text-[16px] leading-5 font-black text-aria-violet transition-colors ${
-                selected === i ? "border-aria-violet bg-aria-violet/5" : "border-aria-lavande"
+                selected === i
+                  ? "border-aria-violet bg-aria-violet/5"
+                  : "border-aria-lavande"
               }`}
             >
               {opt}

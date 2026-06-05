@@ -31,7 +31,11 @@ export default function AccrochePage() {
   const answered = selected !== null;
 
   return (
-    <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme px-6">
+    <main
+      className={`font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme px-6 ${
+        answered ? "pb-28" : ""
+      }`}
+    >
       {/* Mascotte + bulle */}
       <section className="flex flex-col items-center gap-3 pt-16">
         <Image
@@ -50,9 +54,10 @@ export default function AccrochePage() {
               Bonjour, moi c&apos;est ARIA
             </h1>
             <p className="text-[14px] leading-[18px] font-medium text-aria-violet">
-              Je suis votre guide à travers ce kit. Je ne suis pas là pour vous faire peur ou pour
-              vous vendre du rêve, je suis juste là pour vous dire la vérité sur l&apos;IA. Ce
-              qu&apos;elle peut faire pour vous, et ce qu&apos;elle ne fera jamais à votre place.
+              Je serais votre guide à travers ce kit. Je ne suis pas là pour
+              vous faire peur ou pour vous vendre du rêve, je suis juste là pour
+              vous dire la vérité sur l'IA. Ce qu'elle peut faire pour vous, et
+              ce qu'elle ne fera jamais à votre place.
             </p>
           </div>
         </div>
@@ -71,7 +76,9 @@ export default function AccrochePage() {
               onClick={() => setSelected(matiere)}
               aria-pressed={selected === matiere}
               className={`rounded-lg border-2 px-5 py-6 text-center text-[16px] leading-5 font-black text-aria-violet transition-colors ${
-                selected === matiere ? "border-aria-violet bg-aria-violet/5" : "border-aria-lavande"
+                selected === matiere
+                  ? "border-aria-violet bg-aria-violet/5"
+                  : "border-aria-lavande"
               }`}
             >
               {matiere}
@@ -80,24 +87,26 @@ export default function AccrochePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <div className="mt-auto pt-8 pb-12">
-        {answered ? (
+      {/* CTA : fixé en bas uniquement quand une matière est sélectionnée */}
+      {answered ? (
+        <div className="fixed inset-x-0 bottom-0 z-40  px-6 pt-4 pb-8">
           <Link
             href={"/accroche/usage" as Route}
             className="flex w-full items-center justify-center rounded-lg bg-aria-violet px-5 py-5 text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
           >
             Continuer
           </Link>
-        ) : (
+        </div>
+      ) : (
+        <div className="mt-auto pt-8 pb-12">
           <div
             aria-disabled="true"
             className="flex w-full items-center justify-center rounded-lg bg-aria-violet/20 px-5 py-5 text-[16px] leading-5 font-black text-aria-creme"
           >
             Continuer
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </main>
   );
 }

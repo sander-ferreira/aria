@@ -63,7 +63,7 @@ export const CAS_DATA: Record<string, CasData> = {
     },
     apres: {
       image: PHOTO_CAS1_AFTER,
-      text: "« Explique la notion de photosynthèse à un élève de 4ème qui aime le football » → analogie sur mesure en 20 secondes → vous la testez, vous la gardez ou vous en demandez une autre.",
+      text: "« Vous lancez une demande du type : « Explique la photosynthèse à un élève de 4ème qui adore le foot ». L’IA génère une analogie sur mesure en 20 secondes. Vous la testez : si elle vous plaît, vous gardez ; sinon, vous demandez une autre version. ",
       mascot: MASCOT_CAS1,
       mascotMessage: "Vous ne manquez plus de mots. Vous choisissez juste le meilleur.",
     },
@@ -82,14 +82,14 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleText: "text-aria-creme",
     avant: {
       image: PHOTO_CAS2_BEFORE,
-      text: "45 min de travail supplémentaire, souvent abandonné faute de temps.",
+      text: "Avec 28 élèves (8 en difficulté, 6 en avance), préparer trois niveaux de cours prenait auparavant 45 minutes, un temps que vous n'aviez souvent pas.",
     },
     apres: {
       image: PHOTO_CAS2_AFTER,
-      text: "Prompt tapé en 30 secondes → 3 niveaux générés → 10 min de relecture et d'adaptation.",
+      text: "ll suffit de taper un prompt en 30 secondes, en vous basant sur votre exercice, pour obtenir les trois versions. Il ne vous reste plus qu'une dizaine de minutes pour les relire et les adapter.",
       mascot: MASCOT_CAS2,
       mascotMessage:
-        "Ce temps récupéré, c'est du temps pour accompagner, pas pour taper sur un clavier.",
+        "Ce temps récupéré, c'est du temps pour accompagner vos élèves.",
     },
   },
   "3": {
@@ -105,20 +105,20 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleText: "text-aria-violet",
     avant: {
       image: PHOTO_CAS3_BEFORE,
-      text: "2h de préparation, souvent sur le même modèle de cours que l'an dernier.",
+      text: "La préparation prenait deux heures, vous forçant souvent à réutiliser le même cours de l'an dernier. Sans pouvoir améliorer en fonction des retours que vous aviez eu",
     },
     apres: {
       image: PHOTO_CAS3_AFTER,
-      text: "Objectifs pédagogiques + niveau de classe → plan de séquence en 1 minute → vous gardez ce qui est juste, vous supprimez ce qui ne vous ressemble pas.",
+      text: "Donnez lui vos objectifs et le niveau de votre classe : elle génère un plan de séquence en une minute. À vous ensuite de garder ce qui est pertinent et de modifier ce qui ne vous correspond pas.",
       mascot: MASCOT_CAS3,
-      mascotMessage: "Elle propose. Vous décidez. Toujours.",
+      mascotMessage: "L'IA n'est là que pour proposer ; vous restez le seul maître de vos décisions pédagogiques.",
     },
   },
   "4": {
     num: "Cas 4",
     title: "Rédiger un mail délicat aux parents",
     context:
-      "Vous devez contacter les parents d'un élève en décrochage. Vous tournez autour du pot depuis 20 minutes.",
+      "Vous devez écrire à la famille d'un élève en décrochage, mais vous bloquez depuis vingt minutes, cherchant les mots justes sans savoir par où commencer.",
     bg: "bg-aria-lime",
     accent: "text-aria-violet",
     closeColor: "text-aria-violet",
@@ -128,13 +128,13 @@ export const CAS_DATA: Record<string, CasData> = {
     bubbleText: "text-aria-creme",
     avant: {
       image: PHOTO_CAS4_BEFORE,
-      text: "Mail hésitant, énergie dépensée sur la forme plutôt que le fond.",
+      text: "Vous produisez un message hésitant, passant beaucoup d'énergie sur la forme au détriment du fond.",
     },
     apres: {
       image: PHOTO_CAS4_AFTER,
-      text: "Décrire la situation de façon anonyme → mail rédigé → vous ajoutez votre ton, votre connaissance de la famille.",
+      text: "Après avoir décrit brièvement la situation de manière anonyme, l'outil rédige le premier jet que vous enrichissez ensuite de votre ton et de votre connaissance réelle de la famille.",
       mascot: MASCOT_CAS4,
-      mascotMessage: "L'IA fait le squelette. Vous mettez l'humanité.",
+      mascotMessage: "L'IA ne vous remplacera jamais : il fait le squelette, c'est vous qui mettez l'humanité.",
     },
   },
 };
