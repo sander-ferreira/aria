@@ -1,95 +1,118 @@
-# aria
+# ARIA - Le kit pour apprivoiser l'IA en classe
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Next.js, Self, TRPC, and more.
+ARIA est une **Progressive Web App (PWA) pédagogique et gamifiée** qui accompagne les enseignants dans la découverte de l'intelligence artificielle : ce qu'elle peut faire pour eux, et ce qu'elle ne fera jamais à leur place. Le parcours est mobile-first, guidé par une mascotte, rythmé par des étapes, de l'XP et des badges.
 
-## Features
+> L'IA ne remplace pas l'enseignant. Elle lui rend du temps pour enseigner.
 
-- **TypeScript** - For type safety and improved developer experience
-- **Next.js** - Full-stack React framework
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **Shared UI package** - shadcn/ui primitives live in `packages/ui`
-- **tRPC** - End-to-end type-safe APIs
-- **Drizzle** - TypeScript-first ORM
-- **PostgreSQL** - Database engine
-- **Authentication** - Better-Auth
-- **PWA** - Progressive Web App support
+## Le parcours
 
-## Getting Started
+Le kit se déroule en 4 modules, chacun récompensé par un badge (700 XP au total) :
 
-First, install the dependencies:
+| Module | Contenu | Badge | XP |
+| --- | --- | --- | --- |
+| Accroche | Présentation d'ARIA, profil de l'utilisateur | Curieux | 50 |
+| Les possibilités | 4 cas d'usage concrets (avant / après IA) | Premiers Pas | 200 |
+| Limites & Dangers | Exercice « repère les erreurs », scénario, risques RGPD, outils recommandés | Responsable | 200 |
+| Quiz final | 5 questions, résultat par paliers | Engagé | 250 |
 
-```bash
-bun install
-```
+La progression (XP, badges, score) est gérée **côté client**, sans collecte de données — en cohérence avec le message du kit sur la protection des données.
 
-## Database Setup
+## Stack technique
 
-This project uses PostgreSQL with Drizzle ORM.
+- **Next.js 16** (App Router, React Server Components, routes typées)
+- **React 19** + **React Compiler** (mémoïsation automatique)
+- **TypeScript** strict
+- **Tailwind CSS v4** + design tokens de marque
+- **Motion** (animations)
+- **PWA** (manifeste, installable, mode standalone)
+- **tRPC 11** + **TanStack Query** (API typée de bout en bout)
+- **Better-Auth** (authentification email/mot de passe, sessions)
+- **Drizzle ORM** + **PostgreSQL**
+- **Monorepo Bun** (workspaces + catalog)
+- Déploiement **Vercel**
 
-1. Make sure you have a PostgreSQL database set up.
-2. Update your `apps/web/.env` file with your PostgreSQL connection details.
+> Le parcours fonctionne entièrement en front. Le back-end (tRPC, auth, base de données) est en place pour les évolutions futures (comptes enseignants, sauvegarde de progression) mais n'est pas requis pour faire tourner le kit.
 
-3. Apply the schema to your database:
-
-```bash
-bun run db:push
-```
-
-Then, run the development server:
-
-```bash
-bun run dev
-```
-
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the fullstack application.
-
-## UI Customization
-
-React web apps in this stack share shadcn/ui primitives through `packages/ui`.
-
-- Change design tokens and global styles in `packages/ui/src/styles/globals.css`
-- Update shared primitives in `packages/ui/src/components/*`
-- Adjust shadcn aliases or style config in `packages/ui/components.json` and `apps/web/components.json`
-
-### Add more shared components
-
-Run this from the project root to add more primitives to the shared UI package:
-
-```bash
-npx shadcn@latest add accordion dialog popover sheet table -c packages/ui
-```
-
-Import shared components like this:
-
-```tsx
-import { Button } from "@aria/ui/components/button";
-```
-
-### Add app-specific blocks
-
-If you want to add app-specific blocks instead of shared primitives, run the shadcn CLI from `apps/web`.
-
-## Project Structure
+## Structure du monorepo
 
 ```
 aria/
-├── apps/
-│   └── web/         # Fullstack application (Next.js)
-├── packages/
-│   ├── ui/          # Shared shadcn/ui components and styles
-│   ├── api/         # API layer / business logic
-│   ├── auth/        # Authentication configuration & logic
-│   └── db/          # Database schema & queries
+├─ apps/
+│  └─ web/                 # l'application Next.js (le kit)
+│     └─ src/
+│        ├─ app/           # routes (App Router) = écrans du parcours
+│        ├─ components/    # composants (écrans, briques interactives)
+│        └─ lib/           # store de progression (XP), client auth
+├─ packages/
+│  ├─ api/                 # routeurs tRPC + contexte
+│  ├─ auth/                # configuration Better-Auth
+│  ├─ db/                  # schéma Drizzle + connexion PostgreSQL
+│  ├─ env/                 # variables d'environnement validées (zod)
+│  ├─ ui/                  # design system partagé (tokens, primitives)
+│  └─ config/              # config TypeScript partagée
+└─ package.json            # workspaces Bun + catalog de versions
 ```
 
-## Available Scripts
+## Prérequis
 
-- `bun run dev`: Start all applications in development mode
-- `bun run build`: Build all applications
-- `bun run dev:web`: Start only the web application
-- `bun run check-types`: Check TypeScript types across all apps
-- `bun run db:push`: Push schema changes to database
-- `bun run db:generate`: Generate database client/types
-- `bun run db:migrate`: Run database migrations
-- `bun run db:studio`: Open database studio UI
-- `cd apps/web && bun run generate-pwa-assets`: Generate PWA assets
+- [Bun](https://bun.sh) `>= 1.2`
+- [Docker](https://www.docker.com/) (pour la base PostgreSQL locale)
+
+## Installation & lancement
+
+```bash
+# 1. Installer les dépendances
+bun install
+
+# 2. (Optionnel — back-end) Démarrer la base PostgreSQL
+bun run db:start
+bun run db:push      # applique le schéma
+
+# 3. Lancer le serveur de développement
+bun run dev
+```
+
+L'application est disponible sur **http://localhost:3001**.
+
+> Pour explorer uniquement le parcours, l'étape 2 (base de données) est facultative.
+
+## Variables d'environnement
+
+À renseigner dans `apps/web/.env` (nécessaires pour l'auth et la base) :
+
+```bash
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/aria
+BETTER_AUTH_SECRET=une-chaine-secrete
+BETTER_AUTH_URL=http://localhost:3001
+CORS_ORIGIN=http://localhost:3001
+```
+
+## Scripts utiles
+
+```bash
+bun run dev           # tous les workspaces en mode dev
+bun run dev:web       # seulement l'app web
+bun run build         # build de production
+bun run check-types   # vérification TypeScript
+
+bun run db:start      # démarre PostgreSQL (Docker)
+bun run db:push       # applique le schéma à la base
+bun run db:studio     # interface Drizzle Studio
+bun run db:stop       # arrête la base
+```
+
+## Architecture front (en bref)
+
+- **Routing par fichiers** : chaque écran du parcours est une route dans `src/app/`.
+- **Server Components par défaut**, **Client Components** (`"use client"`) uniquement pour les écrans interactifs (quiz, carrousels, exercices).
+- **Contenu data-driven** : les questions, cas et exercices vivent dans des fichiers de données (`*-data.ts`) séparés des composants d'affichage.
+- **État de progression** : un store maison (`lib/progress.ts`) persisté en `sessionStorage`, branché à React via `useSyncExternalStore`, qui alimente le compteur d'XP et l'animation de gain.
+- **Layout global** : colonne centrée en desktop (vue mobile inchangée), overlay d'XP monté une seule fois.
+
+## Déploiement
+
+Déploiement continu sur **Vercel** : chaque branche génère un déploiement de prévisualisation, la production est mise à jour au merge sur `main`.
+
+## Contexte
+
+Projet réalisé dans le cadre des YDAYS (projet interfilière) - Ynov.
