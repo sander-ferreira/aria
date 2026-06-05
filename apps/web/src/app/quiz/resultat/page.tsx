@@ -1,10 +1,11 @@
 "use client";
 
+import type { Route } from "next";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "motion/react";
 
-import { resetProgress, useProgress } from "@/lib/progress";
+import { useProgress } from "@/lib/progress";
 
 const BADGES = [
   { src: "/images/badge-curieux.png", label: "Curieux", w: 57 },
@@ -46,17 +47,11 @@ function palierFor(correct: number): Palier {
  * score réel obtenu au quiz. Mobile-first.
  */
 export default function QuizResultatPage() {
-  const router = useRouter();
   const { state, xp } = useProgress();
 
   const total = state.quizTotal || 5;
   const correct = state.quizCorrect;
   const palier = palierFor(correct);
-
-  function restart() {
-    resetProgress();
-    router.push("/");
-  }
 
   return (
     <main className="font-satoshi flex min-h-dvh w-full flex-col bg-aria-creme px-6 pt-16 pb-8">
@@ -146,13 +141,12 @@ export default function QuizResultatPage() {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={restart}
+          <Link
+            href={"/fin" as Route}
             className="w-full rounded-lg bg-aria-violet py-5 text-center text-[16px] leading-5 font-black text-aria-creme transition-transform active:scale-[0.98]"
           >
             Continuer
-          </button>
+          </Link>
         </div>
       </motion.div>
     </main>
