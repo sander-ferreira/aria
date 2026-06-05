@@ -1,4 +1,5 @@
 import type { Route } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 /**
@@ -9,16 +10,20 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="font-satoshi relative flex h-dvh w-full flex-col overflow-hidden bg-aria-violet">
-      {/* Titre + sous-titre */}
-      <div className="flex flex-col gap-7 px-6 pt-28">
+      {/* Titre + logo ARIA */}
+      <div className="flex flex-col gap-10 px-6 pt-28">
         <h1 className="text-[36px] leading-10 font-black text-aria-creme">
           L&apos;IA <span className="text-aria-lime">ne remplace pas</span> l&apos;enseignant.
           Elle lui <span className="text-aria-lime">rend du temps</span> pour enseigner.
         </h1>
-        <p className="text-[14px] leading-[18px] font-bold text-aria-lime">
-          ARIA vous guide à travers ce que l&apos;IA peut faire pour vous et ce qu&apos;elle ne
-          fera jamais à votre place.
-        </p>
+        <Image
+          src="/images/logo-aria.svg"
+          alt="ARIA"
+          width={102}
+          height={33}
+          priority
+          className="h-[33px] w-[102px]"
+        />
       </div>
 
       {/* Mascotte lavande, ancrée et débordant en bas (cadrage maquette) */}

@@ -84,7 +84,7 @@ export default function QuizResultatPage() {
         {/* Stats + badges */}
         <div className="flex flex-col gap-10">
           <div className="flex items-stretch gap-3">
-            <div className="flex flex-1 flex-col items-center gap-4 rounded-2xl bg-aria-violet px-3 py-5 text-center">
+            <div className="flex flex-1 flex-col items-center rounded-2xl bg-aria-violet px-3 py-5 text-center">
               <span className="text-[24px] leading-10 font-black text-aria-creme">
                 {correct}/{total}
               </span>
@@ -92,7 +92,7 @@ export default function QuizResultatPage() {
                 Bonnes réponses
               </span>
             </div>
-            <div className="flex flex-1 flex-col items-center gap-4 rounded-2xl bg-aria-lime px-3 py-5 text-center">
+            <div className="flex flex-1 flex-col items-center rounded-2xl bg-aria-lime px-3 py-5 text-center">
               <span className="text-[24px] leading-10 font-black text-aria-violet">
                 {xp.total} XP
               </span>

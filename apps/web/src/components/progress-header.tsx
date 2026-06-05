@@ -12,20 +12,28 @@ import { useProgress } from "@/lib/progress";
 export default function ProgressHeader({
   step,
   totalSteps = 5,
+  tone = "violet",
 }: {
   step: number;
   totalSteps?: number;
+  /** Couleur du libellé + de la barre selon le fond de page (crème sur fond coloré). */
+  tone?: "violet" | "creme";
 }) {
   const { xp } = useProgress();
+  const onColor = tone === "creme";
 
   return (
     <header className="flex items-center gap-4 px-6 pt-6 pb-2">
-      <span className="text-[14px] leading-5 font-black text-aria-violet">Étape {step}</span>
+      <span
+        className={`text-[14px] leading-5 font-black ${onColor ? "text-aria-creme" : "text-aria-violet"}`}
+      >
+        Étape {step}
+      </span>
       <div className="flex h-1 flex-1 items-stretch gap-2">
         {Array.from({ length: totalSteps }).map((_, i) => (
           <span
             key={i}
-            className="flex-1 rounded-full bg-aria-violet"
+            className={`flex-1 rounded-full ${onColor ? "bg-aria-creme" : "bg-aria-violet"}`}
             style={{ opacity: i < step ? 1 : 0.2 }}
           />
         ))}

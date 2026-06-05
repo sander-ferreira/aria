@@ -124,9 +124,9 @@ export default function PossibilitesPage() {
             <Link
               key={card.id}
               href={`/possibilites/cas/${card.id}` as Route}
-              className={`relative flex flex-col gap-4 rounded-t-2xl px-6 pt-6 pb-11 transition-transform duration-150 active:scale-[0.98] ${card.bg} ${
+              className={`relative flex flex-col gap-4 rounded-t-2xl px-6 pt-6 transition-transform duration-150 active:scale-[0.98] ${card.bg} ${
                 i > 0 ? "-mt-5" : ""
-              }`}
+              } ${i === CARDS.length - 1 ? "pb-11" : "pb-14"}`}
             >
               <div className="flex items-center justify-between">
                 <span className={`text-[16px] leading-7 font-bold ${card.accent}`}>{card.num}</span>
