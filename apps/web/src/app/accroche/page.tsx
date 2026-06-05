@@ -35,12 +35,12 @@ export default function AccrochePage() {
       {/* Mascotte + bulle */}
       <section className="flex flex-col items-center gap-3 pt-16">
         <Image
-          src="/images/aria-mascot-pointe.png"
+          src="/images/aria-mascot-pointe.svg"
           alt="Aria, la mascotte"
-          width={143}
+          width={139}
           height={156}
           priority
-          className="h-[156px] w-[143px]"
+          className="h-[156px] w-[139px]"
         />
         <div className="relative w-full max-w-[345px]">
           {/* Queue de la bulle (vers le haut, vers la mascotte) */}

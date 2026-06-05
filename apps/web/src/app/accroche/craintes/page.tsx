@@ -80,8 +80,8 @@ export default function AccrocheCraintesPage() {
                   className="h-[94px] w-[79px] shrink-0"
                 />
                 <div className="relative flex-1">
-                  <div className="absolute top-1/2 -left-[7px] h-5 w-5 -translate-y-1/2 rotate-45 rounded-[3px] bg-aria-creme" />
-                  <div className="relative flex flex-col gap-5 rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+                  <div className="absolute top-1/2 -left-[7px] h-5 w-5 -translate-y-1/2 rotate-45 rounded-[3px] bg-white" />
+                  <div className="relative flex flex-col gap-5 rounded-2xl bg-aria-creme p-5">
                     {m.title && (
                       <h2 className="text-[16px] leading-5 font-black text-aria-violet">
                         {m.title}
@@ -96,8 +96,8 @@ export default function AccrocheCraintesPage() {
             ) : (
               <div className="flex items-center gap-5">
                 <div className="relative flex-1">
-                  <div className="absolute top-1/2 -right-[7px] h-5 w-5 -translate-y-1/2 rotate-45 rounded-[2px] bg-aria-creme" />
-                  <div className="relative rounded-2xl bg-aria-creme p-5 shadow-[0px_2px_12px_0px_rgba(0,0,0,0.12)]">
+                  <div className="absolute top-1/2 -right-[7px] h-5 w-5 -translate-y-1/2 rotate-45 rounded-[2px] bg-white" />
+                  <div className="relative rounded-2xl bg-aria-creme p-5 ">
                     <p className="text-[14px] leading-[18px] font-black text-aria-violet">
                       {m.text}
                     </p>
