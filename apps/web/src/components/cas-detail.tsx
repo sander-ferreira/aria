@@ -14,20 +14,49 @@ const TOTAL_CAS = Object.keys(CAS_DATA).length;
 
 function CloseIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 14 14" fill="none" className={className} aria-hidden="true" width={14} height={14}>
-      <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" />
+    <svg
+      viewBox="0 0 14 14"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+      width={14}
+      height={14}
+    >
+      <path
+        d="M1 1l12 12M13 1L1 13"
+        stroke="currentColor"
+        strokeWidth={2.2}
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
 /** Bloc photo + texte (commun aux états Avant / Après) */
-function BlocInfo({ image, text, alt }: { image: string; text: string; alt: string }) {
+function BlocInfo({
+  image,
+  text,
+  alt,
+}: {
+  image: string;
+  text: string;
+  alt: string;
+}) {
   return (
-    <div className="flex flex-col gap-7 rounded-2xl bg-aria-creme p-4">
+    <div className="flex flex-col gap-4 rounded-2xl bg-aria-creme p-4">
       <div className="relative h-32 w-full overflow-hidden rounded-2xl">
-        <Image src={image} alt={alt} fill priority className="object-cover" sizes="100vw" />
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
       </div>
-      <p className="text-[16px] leading-5 font-medium text-aria-violet">{text}</p>
+      <p className="text-[16px] leading-5 font-medium text-aria-violet">
+        {text}
+      </p>
     </div>
   );
 }
@@ -50,12 +79,15 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
   function handleClose() {
     const vus = new Set(getCasVus());
     vus.add(id);
-    const next = vus.size >= TOTAL_CAS ? "/possibilites/badge" : "/possibilites";
+    const next =
+      vus.size >= TOTAL_CAS ? "/possibilites/badge" : "/possibilites";
     router.push(next as Route);
   }
 
   return (
-    <main className={`font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden ${data.bg}`}>
+    <main
+      className={`font-satoshi flex min-h-dvh w-full flex-col overflow-x-hidden ${data.bg}`}
+    >
       {/* Barre haute : fermeture */}
       <div className="px-6 pt-6">
         <button
@@ -99,7 +131,11 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
                     <motion.span
                       layoutId="cas-switch-pill"
                       className={`absolute inset-0 rounded-full ${data.switchActiveBg}`}
-                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 420,
+                        damping: 36,
+                      }}
                     />
                   )}
                   <span
@@ -123,10 +159,18 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
               transition={{ duration: 0.22, ease: "easeOut" }}
             >
               {tab === "avant" ? (
-                <BlocInfo image={data.avant.image} text={data.avant.text} alt={data.title} />
+                <BlocInfo
+                  image={data.avant.image}
+                  text={data.avant.text}
+                  alt={data.title}
+                />
               ) : (
                 <div className="flex flex-col gap-9">
-                  <BlocInfo image={data.apres.image} text={data.apres.text} alt={data.title} />
+                  <BlocInfo
+                    image={data.apres.image}
+                    text={data.apres.text}
+                    alt={data.title}
+                  />
                   {/* Message de la mascotte */}
                   <div className="flex items-start gap-8">
                     <Image
@@ -140,14 +184,18 @@ export default function CasDetail({ data, id }: { data: CasData; id: string }) {
                     {/* drop-shadow (filtre) → ombre unique sur bulle + pointe */}
                     <div className="relative flex-1 drop-shadow-[0px_2px_12px_rgba(0,0,0,0.12)]">
                       <div className={`rounded-2xl p-5 ${data.bubbleBg}`}>
-                        <p className={`text-[14px] leading-[18px] font-bold ${data.bubbleText}`}>
+                        <p
+                          className={`text-[14px] leading-[18px] font-bold ${data.bubbleText}`}
+                        >
                           {data.apres.mascotMessage}
                         </p>
                       </div>
                       {/* Pointe : triangle vers la mascotte (gauche), même couleur que la bulle */}
                       <div
                         aria-hidden
-                        style={{ clipPath: "polygon(100% 0, 100% 100%, 0 50%)" }}
+                        style={{
+                          clipPath: "polygon(100% 0, 100% 100%, 0 50%)",
+                        }}
                         className={`absolute top-1/2 right-full -mr-[2px] h-7 w-[18px] -translate-y-1/2 ${data.bubbleBg}`}
                       />
                     </div>
